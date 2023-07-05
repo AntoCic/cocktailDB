@@ -1,0 +1,31 @@
+button,
+input,
+select,
+textarea{
+	font-family: inherit;
+	font-size: 100%;
+	box-sizing:border-box;
+	padding:0;
+	margin:0;
+}
+textarea {
+	overflow:auto;
+}
+
+.allPg{
+	
+
+}
+header{
+	display: flex;
+	gap: 20px;
+	padding: 20px 20px;
+}
+.phContainer img{
+	border-radius: 40px;
+}
+@media(max-width:58em) {
+   
+
+
+}
