@@ -1,0 +1,12 @@
+{
+    "short_name": "CkDb",
+    "name": "Curriculum Antonino Cicala",
+    "icons": [{
+    "src": "./img/logob.png",
+    "type": "image/png",
+    "sizes": "192x192"
+    }],
+    "theme_color": "#ffffff",
+    "display": "fullscreen"
+   }
+   
