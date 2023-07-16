@@ -21,18 +21,18 @@ for (i = 0; i < lettere.length; i++) {
       
       x++;
       if (lettere.length == (x + 1)) {
-        // console.log(Cocktail); 
-        // Cocktail.forEach(() => {
-        //   CocktailsName.push(Cocktail.nome);
-        //   CocktaiImg.push(Cocktail.immage);
-        // });
+        console.log(Cocktail);
+        
         for (let key of Object.keys(Cocktail)) {
           CocktailsName.push(Cocktail[key].nome);   
+          CocktaiImg.push(Cocktail[key].immage);
+          createImgList(Cocktail[key].immage,Cocktail[key].nome);
         }
+
         Cocktailsista = CocktailsName.sort();
         for (ii = 0; ii < Cocktailsista.length; ii++) {
           createOption(Cocktailsista[ii]);
-          createImgList(CocktaiImg[ii],CocktailsName[ii]);
+          //createImgList(CocktaiImg[ii],CocktailsName[ii]);
         }
       };
     });
@@ -47,7 +47,7 @@ function createOption(value) {
 function createImgList(urlImg, nameCk) {
   const a = document.createElement("a");
   a.classList.add('CkBox');
-  a.setAttribute("href", "www.thecocktaildb.com/api/json/v1/1/search.php?s="+nameCk);
+  a.setAttribute("href", "https://www.thecocktaildb.com/api/json/v1/1/search.php?s="+nameCk);
   const img = document.createElement("img");
   img.setAttribute("src", urlImg);
   a.appendChild(img);
