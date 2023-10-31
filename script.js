@@ -1,5 +1,6 @@
 const select = document.getElementById("listDk");
 const phList = document.getElementById("phList");
+const character = document.querySelector(".character");
 let lettere = ['a', 'b', "c", "d", "e", "f", "g", "h", "i", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "z"];
 let Cocktail = [];
 let CocktailsName = [];
@@ -45,11 +46,16 @@ function createOption(value) {
   select.appendChild(option);
 }
 function createImgList(urlImg, nameCk) {
-  const a = document.createElement("a");
-  a.classList.add('CkBox');
-  a.setAttribute("href", "https://www.thecocktaildb.com/api/json/v1/1/search.php?s="+nameCk);
+  const div = document.createElement("div");
+  div.classList.add('character');
+  div.setAttribute("data-character", nameCk);
+  // div.setAttribute("href", "https://www.thecocktaildb.com/api/json/v1/1/search.php?s="+nameCk);
   const img = document.createElement("img");
   img.setAttribute("src", urlImg);
-  a.appendChild(img);
-  phList.appendChild(a);
+  div.appendChild(img);
+  phList.appendChild(div);
 }
+
+character.addEventListener("click", function(){
+  console.log("ciao");
+})
