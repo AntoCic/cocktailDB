@@ -9,9 +9,11 @@
 	margin: 0;
 	box-sizing: border-box;
 }
-h1{
+
+h1 {
 	font-size: 30px;
 }
+
 html {
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	background-color: #CBB279;
@@ -42,10 +44,12 @@ header {
 	margin-right: calc(50vw - 100px);
 }
 
-.character img{
+.drinkCard img {
 	width: 200px;
 	border-radius: 20px;
+	cursor: pointer;
 }
+
 /* dirnk */
 .drink {
 	display: grid;
@@ -56,33 +60,57 @@ header {
 	margin-top: 10px;
 	padding: 20px;
 }
-.leftBox{
+
+.leftBox {
 	grid-column: 1/2;
-    text-align: center;
+	text-align: center;
 }
-.rightBox{
+
+.rightBox {
 	grid-column: 2/3;
-    text-align: left;
+	text-align: left;
 }
-.bottomBox{
+
+.bottomBox {
 	padding-top: 10px;
 	grid-column: 1/3;
-    text-align: left;
+	text-align: left;
 }
+
 /* loading */
 .loading {
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	max-width: 520px;
 	margin: 0 auto;
 	display: flex;
-	align-items: center;
+	flex-direction: column;
 	justify-content: center;
-	padding-top: 20px; 
+	align-items: center;
+	max-width: 520px;
+	height: 70vh;
+	margin-top: 10px;
+	gap: 10px;
+}
 
+.loadingBar {
+	border: 1px solid rgb(255, 255, 255);
+	border-radius: 2px;
+	height: 10px;
+	width: 150px;
+}
+
+.loadingBar {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	border: 1px solid rgb(255, 255, 255);
+	height: 10px;
+}
+
+.loadingContent {
+	background-color: white;
+	border: 1px solid rgb(255, 255, 255);
+	border-radius: 2px;
+	height: 6px;
+	width: 6px;
 }
 
 .bottomSpace {
@@ -104,7 +132,8 @@ header {
 	background-color: #537188;
 	padding: 20px;
 }
-select{
+
+select {
 	background-color: #CBB279;
 	padding: 5px;
 	border-radius: 10px;
@@ -114,7 +143,7 @@ select{
 	grid-column: 3/4;
 }
 
-.hidden{
+.hidden {
 	display: none;
 }
 
@@ -123,7 +152,7 @@ select{
 }
 
 [data-state="loading"] {
-	background-color: white;
+	background-color: #CBB279;
 }
 
 [data-state="drinkList"] section:not(.drinkList),

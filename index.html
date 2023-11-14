@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="it" data-state="drinkList">
+<html lang="it" data-state="loading">
+<!-- loading -->
+<!-- drinkList -->
+<!-- drink -->
 
 <head>
   <meta charset="UTF-8" />
@@ -10,14 +13,14 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,600,0,0" />
-    <link rel="manifest" href="site.webmanifest" />
-    
-  </head>
+  <link rel="manifest" href="site.webmanifest" />
+
+</head>
 
 <body>
   <header>
     <img src="img/logo.png" alt="logo">
-    <h1>COCKTAIL</h1>
+    <h1 id="titolo">COCKTAIL</h1>
   </header>
 
   <main>
@@ -27,8 +30,7 @@
       <section class="drinkList">
         <p>TUTTI I DRINK</p>
         <div id="phList" class="drinkList">
-          <!-- <a href="index.html" class="CkBox"><img
-              src="https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg/preview" alt="imgProva"></a> -->
+          <!-- lista drink-->
         </div>
       </section>
 
@@ -36,7 +38,8 @@
         <div class="leftBox"><img src="https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg/preview"
             alt="imgProva"></a></div>
         <div class="rightBox">
-          <h1><img src="img/logo.png" alt="logo" width="30px"> Titolo</h1>
+          <img src="img/logo.png" alt="logo" width="30px">
+          <h1 id="drinkName"> Titolo</h1>
           <br>
           <h3>Ingrdienti</h3>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem, perferendis quasi consectetur ipsum
@@ -52,7 +55,8 @@
       </section>
 
       <section class="loading">
-        <img src="img/caricamento.gif" alt="Caricamento..." width="150px">
+        <img src="img/loading.gif" alt="Caricamento..." width="150px">
+        <div class="loadingBar"></div>
       </section>
 
     </div>
