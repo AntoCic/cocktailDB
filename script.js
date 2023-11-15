@@ -5,7 +5,7 @@ const loadingBar = document.querySelector(".loadingBar")
 // , "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
 let lettere = ['a', 'b'];
 let CocktailList = [];
-let caricamento = 0;
+let progresLoading = 0;
 
 
 
@@ -29,6 +29,7 @@ async function scaricaDrink(lettera) {
 //esegue il download dei drink per lettera in ordine alfabetico
 //e li carica in un ogetto unico
 async function creaCocktailList() {
+  let idEl = 0;
   for (let lettera of lettere) {
     const elementiScaicati = await scaricaDrink(lettera)
       .catch(function (errore) {
@@ -37,10 +38,10 @@ async function creaCocktailList() {
     const drink = elementiScaicati.drinks;
     //creo un ogetto con tutti i drink
     for (let key in drink) {
-      CocktailList.push({ id: drink[key].idDrink, nome: drink[key].strDrink, immageUrl: drink[key].strDrinkThumb, bicchiere: drink[key].strGlass, IBA: drink[key].strIBA, misura1: drink[key].strMeasure1, ingrediente1: drink[key].strIngredient1, misura2: drink[key].strMeasure2, ingrediente2: drink[key].strIngredient2, misura3: drink[key].strMeasure3, ingrediente3: drink[key].strIngredient3, misura4: drink[key].strMeasure4, ingrediente4: drink[key].strIngredient4, misura5: drink[key].strMeasure5, ingrediente5: drink[key].strIngredient5, misura6: drink[key].strMeasure6, ingrediente6: drink[key].strIngredient6, misura7: drink[key].strMeasure7, ingrediente7: drink[key].strIngredient7, misura8: drink[key].strMeasure8, ingrediente8: drink[key].strIngredient8, misura9: drink[key].strMeasure9, ingrediente9: drink[key].strIngredient9, misura10: drink[key].strMeasure10, ingrediente10: drink[key].strIngredient10, metodo: drink[key].strInstructionsIT })
+      CocktailList.push({ id: idEl, nome: drink[key].strDrink, immageUrl: drink[key].strDrinkThumb, bicchiere: drink[key].strGlass, IBA: drink[key].strIBA, misura1: drink[key].strMeasure1, ingrediente1: drink[key].strIngredient1, misura2: drink[key].strMeasure2, ingrediente2: drink[key].strIngredient2, misura3: drink[key].strMeasure3, ingrediente3: drink[key].strIngredient3, misura4: drink[key].strMeasure4, ingrediente4: drink[key].strIngredient4, misura5: drink[key].strMeasure5, ingrediente5: drink[key].strIngredient5, misura6: drink[key].strMeasure6, ingrediente6: drink[key].strIngredient6, misura7: drink[key].strMeasure7, ingrediente7: drink[key].strIngredient7, misura8: drink[key].strMeasure8, ingrediente8: drink[key].strIngredient8, misura9: drink[key].strMeasure9, ingrediente9: drink[key].strIngredient9, misura10: drink[key].strMeasure10, ingrediente10: drink[key].strIngredient10, metodo: drink[key].strInstructionsIT })
+      idEl++;
     }
-    caricamento++;
-    progresLoadingBar(caricamento, lettere.length);
+    progresLoadingBar(lettere.length);
   }
   usaLista();
 }
@@ -49,7 +50,7 @@ async function creaCocktailList() {
 function usaLista() {
   console.log(CocktailList);
   for (let key in Object.keys(CocktailList)) {
-    createImgList(CocktailList[key].immageUrl, CocktailList[key].nome);
+    createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id);
     createOption(CocktailList[key].nome);
   }
   //cambia schermata
@@ -64,20 +65,21 @@ function drinkBtn() {
   const drinkCard = document.querySelectorAll('.drinkCard');
   drinkCard.forEach(function (el) {
     el.addEventListener('click', function () {
-      const nameDrink = el.getAttribute("data-nome");
-      setAppState('drinkList');
-      drinkSection(nameDrink);
+      const idDrink = el.getAttribute("data-id");
+      drinkSection(idDrink);
     });
   });
 }
 
-// apre e crea la drink paga
-function drinkSection(name) {
+function drinkSection(id) {
   setAppState('drink');
-  const drinkName = document.getElementById("drinkName")
-  drinkName.innerText = name;
-}
+  console.log(id);
 
+  const drinkName = document.getElementById("drinkName");
+
+  drinkName.innerText = CocktailList[id].nome;
+
+}
 // inserisce i nomi dei drink nel menu a tendina in basso a destra
 function createOption(value) {
   const option = document.createElement("option");
@@ -87,9 +89,10 @@ function createOption(value) {
 }
 
 // inserisce immagine nel body all'interno di phList e assegno il nome
-function createImgList(urlImg, nameCk) {
+function createImgList(urlImg, nameCk, idCk) {
   const div = document.createElement("div");
   div.classList.add('drinkCard');
+  div.setAttribute("data-id", idCk);
   div.setAttribute("data-nome", nameCk);
   const img = document.createElement("img");
   img.setAttribute("src", urlImg);
@@ -99,12 +102,13 @@ function createImgList(urlImg, nameCk) {
 
 
 // aumenta barra di caricamento
-function progresLoadingBar(progres, max) {
+function progresLoadingBar(max) {
+  progresLoading++;
   loadingBar.style.width = `${max * 8}px`;
   const div = document.createElement("div");
   div.classList.add('loadingContent');
   loadingBar.appendChild(div);
-  if (progres === max) { caricamento = 0; }
+  if (progresLoading === max) { progresLoading = 0; }
 }
 
 
@@ -113,9 +117,13 @@ function setAppState(state) {
   document.documentElement.dataset.state = state;
 }
 
+const backBt = document.getElementById("backBt");
+backBt.addEventListener("click", function () {
+  setAppState('drinkList');
+});
+
 // funzione primaria che avvia il download dei dati dall API
 creaCocktailList();
-
 
 
 
