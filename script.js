@@ -71,13 +71,38 @@ function drinkBtn() {
   });
 }
 
+// inserisce le informazioni del drink nella schermata drink
 function drinkSection(id) {
   setAppState('drink');
-  console.log(id);
-
+  console.log(CocktailList[id].bicchiere);
   const drinkName = document.getElementById("drinkName");
+  const drinkIngredients = document.getElementById("drinkIngredients");
+  const drinkMetod = document.getElementById("drinkMetod");
+  const imgDrink = document.getElementById("imgDrink");
+  const drinkGlass = document.getElementById("drinkGlass");
 
+  switch (CocktailList[id].bicchiere) {
+    case "Cocktail glass":
+      drinkGlass.setAttribute("src", "img/martini.png");
+      break;
+    case "Old-Fashioned glass":
+      drinkGlass.setAttribute("src", "img/rock.png");
+      break;
+    case "Collins Glass":
+      drinkGlass.setAttribute("src", "img/collins.png");
+      break;
+    case "Beer glass":
+      drinkGlass.setAttribute("src", "img/beer.png");
+      break;
+    default:
+      drinkGlass.setAttribute("src", "img/martini.png");
+  }
+
+  // drinkGlass.setAttribute("src", CocktailList[id].immageUrl);   
+  imgDrink.setAttribute("src", CocktailList[id].immageUrl);
   drinkName.innerText = CocktailList[id].nome;
+  drinkIngredients.innerText = CocktailList[id].nome;
+  drinkMetod.innerText = CocktailList[id].metodo;
 
 }
 // inserisce i nomi dei drink nel menu a tendina in basso a destra
@@ -117,6 +142,7 @@ function setAppState(state) {
   document.documentElement.dataset.state = state;
 }
 
+// torna alla schermata drinkList premando l'header
 const backBt = document.getElementById("backBt");
 backBt.addEventListener("click", function () {
   setAppState('drinkList');
