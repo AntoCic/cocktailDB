@@ -2,6 +2,11 @@
 const select = document.getElementById("listDk");
 const phList = document.getElementById("phList");
 const loadingBar = document.querySelector(".loadingBar")
+const drinkName = document.getElementById("drinkName");
+const drinkIngredients = document.getElementById("drinkIngredients");
+const drinkMetod = document.getElementById("drinkMetod");
+const imgDrink = document.getElementById("imgDrink");
+const drinkGlass = document.getElementById("drinkGlass");
 // , "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
 let lettere = ['a', 'b'];
 let CocktailList = [];
@@ -75,20 +80,15 @@ function drinkBtn() {
 function drinkSection(id) {
   setAppState('drink');
   console.log(CocktailList[id].bicchiere);
-  const drinkName = document.getElementById("drinkName");
-  const drinkIngredients = document.getElementById("drinkIngredients");
-  const drinkMetod = document.getElementById("drinkMetod");
-  const imgDrink = document.getElementById("imgDrink");
-  const drinkGlass = document.getElementById("drinkGlass");
 
   switch (CocktailList[id].bicchiere) {
-    case "Cocktail glass":
+    case "Cocktail glass" || "Martini Glass":
       drinkGlass.setAttribute("src", "img/martini.png");
       break;
-    case "Old-Fashioned glass":
+    case "Old-Fashioned glass" || "Whiskey sour glass":
       drinkGlass.setAttribute("src", "img/rock.png");
       break;
-    case "Collins Glass":
+    case "Collins Glass" || "Highball glass":
       drinkGlass.setAttribute("src", "img/collins.png");
       break;
     case "Beer glass":
@@ -97,14 +97,30 @@ function drinkSection(id) {
     default:
       drinkGlass.setAttribute("src", "img/martini.png");
   }
-
-  // drinkGlass.setAttribute("src", CocktailList[id].immageUrl);   
   imgDrink.setAttribute("src", CocktailList[id].immageUrl);
   drinkName.innerText = CocktailList[id].nome;
-  drinkIngredients.innerText = CocktailList[id].nome;
-  drinkMetod.innerText = CocktailList[id].metodo;
+  inserisciIngredienti(id);
 
+  drinkMetod.innerText = CocktailList[id].metodo;
 }
+
+function inserisciIngredienti(id) {
+  let ingredientsList = CocktailList[id].misura1 + " : " + CocktailList[id].ingrediente1 + "\n";
+
+  if (!!CocktailList[id].ingrediente2) { ingredientsList = ingredientsList + CocktailList[id].misura2 + " : " + CocktailList[id].ingrediente2 + "\n"; }
+  if (!!CocktailList[id].ingrediente3) { ingredientsList = ingredientsList + CocktailList[id].misura3 + " : " + CocktailList[id].ingrediente3 + "\n"; }
+  if (!!CocktailList[id].ingrediente4) { ingredientsList = ingredientsList + CocktailList[id].misura4 + " : " + CocktailList[id].ingrediente4 + "\n"; }
+  if (!!CocktailList[id].ingrediente5) { ingredientsList = ingredientsList + CocktailList[id].misura5 + " : " + CocktailList[id].ingrediente5 + "\n"; }
+  if (!!CocktailList[id].ingrediente6) { ingredientsList = ingredientsList + CocktailList[id].misura6 + " : " + CocktailList[id].ingrediente6 + "\n"; }
+  if (!!CocktailList[id].ingrediente7) { ingredientsList = ingredientsList + CocktailList[id].misura7 + " : " + CocktailList[id].ingrediente7 + "\n"; }
+  if (!!CocktailList[id].ingrediente8) { ingredientsList = ingredientsList + CocktailList[id].misura8 + " : " + CocktailList[id].ingrediente8 + "\n"; }
+  if (!!CocktailList[id].ingrediente9) { ingredientsList = ingredientsList + CocktailList[id].misura9 + " : " + CocktailList[id].ingrediente9 + "\n"; }
+  if (!!CocktailList[id].ingrediente10) { ingredientsList = ingredientsList + CocktailList[id].misura10 + " : " + CocktailList[id].ingrediente10 + "\n"; }
+
+
+  drinkIngredients.innerText = ingredientsList;
+}
+
 // inserisce i nomi dei drink nel menu a tendina in basso a destra
 function createOption(value) {
   const option = document.createElement("option");
