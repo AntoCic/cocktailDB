@@ -26,6 +26,12 @@ header {
 	text-align: center;
 }
 
+.backArrow {
+	position: fixed;
+	top: 10px;
+	right: 10px;
+}
+
 /* drinkList */
 .drinkList {
 	display: flex;
@@ -45,9 +51,16 @@ header {
 }
 
 .drinkCard img {
-	width: 200px;
+	width: 170px;
 	border-radius: 20px;
 	cursor: pointer;
+}
+
+#imgDrink {
+	width: 170px;
+	border-radius: 20px;
+	cursor: pointer;
+	padding-right: 5px;
 }
 
 /* dirnk */
