@@ -1,11 +1,11 @@
-//sistemare il caso in cui c'e il l'ingrediente ma non la misura
-// dividere i drink per lettera registrando la quantita di drink per lettera
-//sistemare logo bicchieri
-//aggiungere il nome nella foto 
-//aggiungere il logo certificazione iba nella foto 
-//aggiungere il logo certificazione iba nella pg drink
-//selezionase i drink preferiti
-// sistemare un po di grandezze
+
+// 1 dividere i drink per lettera registrando la quantita di drink per lettera
+// 2 sistemare logo bicchieri
+// 3 aggiungere il nome nella foto 
+// 4 aggiungere il logo certificazione iba nella foto 
+// 5 aggiungere il logo certificazione iba nella pg drink
+// 6 selezionase i drink preferiti
+// 7 sistemare un po di grandezze
 
 
 
@@ -136,16 +136,70 @@ function drinkSection(id) {
 function inserisciIngredienti(id) {
   let ingredientsList = CocktailList[id].misura1 + " : " + CocktailList[id].ingrediente1 + "\n";
 
-  if (!!CocktailList[id].ingrediente2) { ingredientsList = ingredientsList + CocktailList[id].misura2 + " : " + CocktailList[id].ingrediente2 + "\n"; }
-  if (!!CocktailList[id].ingrediente3) { ingredientsList = ingredientsList + CocktailList[id].misura3 + " : " + CocktailList[id].ingrediente3 + "\n"; }
-  if (!!CocktailList[id].ingrediente4) { ingredientsList = ingredientsList + CocktailList[id].misura4 + " : " + CocktailList[id].ingrediente4 + "\n"; }
-  if (!!CocktailList[id].ingrediente5) { ingredientsList = ingredientsList + CocktailList[id].misura5 + " : " + CocktailList[id].ingrediente5 + "\n"; }
-  if (!!CocktailList[id].ingrediente6) { ingredientsList = ingredientsList + CocktailList[id].misura6 + " : " + CocktailList[id].ingrediente6 + "\n"; }
-  if (!!CocktailList[id].ingrediente7) { ingredientsList = ingredientsList + CocktailList[id].misura7 + " : " + CocktailList[id].ingrediente7 + "\n"; }
-  if (!!CocktailList[id].ingrediente8) { ingredientsList = ingredientsList + CocktailList[id].misura8 + " : " + CocktailList[id].ingrediente8 + "\n"; }
-  if (!!CocktailList[id].ingrediente9) { ingredientsList = ingredientsList + CocktailList[id].misura9 + " : " + CocktailList[id].ingrediente9 + "\n"; }
-  if (!!CocktailList[id].ingrediente10) { ingredientsList = ingredientsList + CocktailList[id].misura10 + " : " + CocktailList[id].ingrediente10 + "\n"; }
-
+  if (!!CocktailList[id].ingrediente2) {
+    if (!!CocktailList[id].misura2) {
+      ingredientsList = ingredientsList + CocktailList[id].misura2 + " : " + CocktailList[id].ingrediente2 + "\n";
+    } else {
+      ingredientsList = ingredientsList + "Un pó di " + CocktailList[id].ingrediente2 + "\n";
+    }
+  }
+  if (!!CocktailList[id].ingrediente3) {
+    if (!!CocktailList[id].misura3) {
+      ingredientsList = ingredientsList + CocktailList[id].misura3 + " : " + CocktailList[id].ingrediente3 + "\n";
+    } else {
+      ingredientsList = ingredientsList + "Un pó di " + CocktailList[id].ingrediente3 + "\n";
+    }
+  }
+  console.log(!!CocktailList[id].ingrediente4);
+  if (!!CocktailList[id].ingrediente4) {
+    if (!!CocktailList[id].misura4) {
+      ingredientsList = ingredientsList + CocktailList[id].misura4 + " : " + CocktailList[id].ingrediente4 + "\n";
+    } else {
+      ingredientsList = ingredientsList + "Un pó di " + CocktailList[id].ingrediente4 + "\n";
+    }
+  }
+  if (!!CocktailList[id].ingrediente5) {
+    if (!!CocktailList[id].misura5) {
+      ingredientsList = ingredientsList + CocktailList[id].misura5 + " : " + CocktailList[id].ingrediente5 + "\n";
+    } else {
+      ingredientsList = ingredientsList + "Un pó di " + CocktailList[id].ingrediente5 + "\n";
+    }
+  }
+  if (!!CocktailList[id].ingrediente6) {
+    if (!!CocktailList[id].misura6) {
+      ingredientsList = ingredientsList + CocktailList[id].misura6 + " : " + CocktailList[id].ingrediente6 + "\n";
+    } else {
+      ingredientsList = ingredientsList + "Un pó di " + CocktailList[id].ingrediente6 + "\n";
+    }
+  }
+  if (!!CocktailList[id].ingrediente7) {
+    if (!!CocktailList[id].misura7) {
+      ingredientsList = ingredientsList + CocktailList[id].misura7 + " : " + CocktailList[id].ingrediente7 + "\n";
+    } else {
+      ingredientsList = ingredientsList + "Un pó di " + CocktailList[id].ingrediente7 + "\n";
+    }
+  }
+  if (!!CocktailList[id].ingrediente8) {
+    if (!!CocktailList[id].misura8) {
+      ingredientsList = ingredientsList + CocktailList[id].misura8 + " : " + CocktailList[id].ingrediente8 + "\n";
+    } else {
+      ingredientsList = ingredientsList + "Un pó di " + CocktailList[id].ingrediente8 + "\n";
+    }
+  }
+  if (!!CocktailList[id].ingrediente9) {
+    if (!!CocktailList[id].misura9) {
+      ingredientsList = ingredientsList + CocktailList[id].misura9 + " : " + CocktailList[id].ingrediente9 + "\n";
+    } else {
+      ingredientsList = ingredientsList + "Un pó di " + CocktailList[id].ingrediente9 + "\n";
+    }
+  }
+  if (!!CocktailList[id].ingrediente10) {
+    if (!!CocktailList[id].misura10) {
+      ingredientsList = ingredientsList + CocktailList[id].misura10 + " : " + CocktailList[id].ingrediente10 + "\n";
+    } else {
+      ingredientsList = ingredientsList + "Un pó di " + CocktailList[id].ingrediente10 + "\n";
+    }
+  }
 
   drinkIngredients.innerText = ingredientsList;
 }
