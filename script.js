@@ -1,3 +1,14 @@
+//sistemare il caso in cui c'e il l'ingrediente ma non la misura
+// dividere i drink per lettera registrando la quantita di drink per lettera
+//sistemare logo bicchieri
+//aggiungere il nome nella foto 
+//aggiungere il logo certificazione iba nella foto 
+//aggiungere il logo certificazione iba nella pg drink
+//selezionase i drink preferiti
+// sistemare un po di grandezze
+
+
+
 
 const selectDropdown = document.getElementById("listDk");
 const phList = document.getElementById("phList");
