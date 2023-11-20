@@ -1,6 +1,6 @@
 
-// 1 dividere i drink per lettera registrando la quantita di drink per lettera
-// 2 sistemare logo bicchieri
+// ---1 dividere i drink per lettera registrando la quantita di drink per lettera
+// ---2 sistemare logo bicchieri
 // 3 aggiungere il nome nella foto 
 // 4 aggiungere il logo certificazione iba nella foto 
 // 5 aggiungere il logo certificazione iba nella pg drink
@@ -71,6 +71,7 @@ function usaLista() {
   for (let key in Object.keys(CocktailList)) {
     createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id);
     createOption(CocktailList[key].nome, CocktailList[key].id);
+    console.log(CocktailList[key].bicchiere);
   }
   //cambia schermata
   setAppState('drinkList');
@@ -111,18 +112,36 @@ function drinkSection(id) {
   console.log(id, " ", CocktailList[id].nome, " ", CocktailList[id].bicchiere);
 
   switch (CocktailList[id].bicchiere) {
-    case "Cocktail glass" || "Martini Glass":
+    case "Cocktail glass" || "Martini Glass" || "Coupe Glass":
       drinkGlass.setAttribute("src", "img/martini.png");
       break;
-    case "Old-Fashioned glass" || "Whiskey sour glass":
+    case "Old-Fashioned glass" || "Whiskey sour glass" || "Punch bowl":
       drinkGlass.setAttribute("src", "img/rock.png");
       break;
-    case "Collins Glass" || "Highball glass":
+    case "Collins Glass" || "Highball glass" || "Pint glass":
       drinkGlass.setAttribute("src", "img/collins.png");
       break;
-    case "Beer glass":
+    case "Beer pilsner" || "Beer Glass" || "Beer mug" || "Mason jar":
       drinkGlass.setAttribute("src", "img/beer.png");
       break;
+    case "Shot glass":
+      drinkGlass.setAttribute("src", "img/shot.png");
+      break;
+    case "Champagne Flute":
+      drinkGlass.setAttribute("src", "img/flute.png");
+      break;
+    case "Coffee mug":
+      drinkGlass.setAttribute("src", "img/beer.png");
+      break;
+    case "Punch bowl" || "Pitcher":
+      drinkGlass.setAttribute("src", "img/pitcher.png");
+      break;
+    case "Hurricane glass":
+      drinkGlass.setAttribute("src", "img/hurricane.png");
+      break;
+
+
+
     default:
       drinkGlass.setAttribute("src", "img/martini.png");
   }
