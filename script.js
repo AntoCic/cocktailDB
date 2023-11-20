@@ -1,8 +1,9 @@
 
 // ---1 dividere i drink per lettera registrando la quantita di drink per lettera
 // ---2 sistemare logo bicchieri
-// 3 aggiungere il nome nella foto 
-// 4 aggiungere il logo certificazione iba nella foto 
+// 3 sistemare il tasto az
+// 4 aggiungere il nome nella foto 
+// 4.1 aggiungere il logo certificazione iba nella foto 
 // 5 aggiungere il logo certificazione iba nella pg drink
 // 6 selezionase i drink preferiti
 // 7 sistemare un po di grandezze
