@@ -130,6 +130,7 @@ header {
 	padding: 35px;
 }
 
+
 .bottombar {
 	position: fixed;
 	display: grid;
@@ -144,6 +145,9 @@ header {
 	border-top-right-radius: 15px;
 	background-color: #537188;
 	padding: 20px;
+	font-size: 21px;
+	font-weight: 600;
+
 }
 
 select {

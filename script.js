@@ -1,7 +1,10 @@
 
 // ---1 dividere i drink per lettera registrando la quantita di drink per lettera
 // ---2 sistemare logo bicchieri
-// 3 sistemare il tasto az
+// ---3 sistemare il tasto az
+// 3.1 sistemare il tasto az toglere lettera per evitare il doppio click 
+// 3.2 sistemare il tasto az non si puo cliccare sulle carte dei drink
+// 3.3 sistemare il tasto az trasformare il tasto dado in un tasto per riavere tutti i drink
 // 4 aggiungere il nome nella foto 
 // 4.1 aggiungere il logo certificazione iba nella foto 
 // 5 aggiungere il logo certificazione iba nella pg drink
@@ -10,7 +13,7 @@
 
 
 
-
+const azIcon = document.getElementById("azIcon");
 const selectDropdown = document.getElementById("listDk");
 const Letterlist = document.getElementById("Letterlist");
 const phList = document.getElementById("phList");
@@ -67,6 +70,7 @@ async function creaCocktailList() {
     if (drink) {
       lettereLength.push(drink.length);
     } else { lettereLength.push(0); }
+
     progresLoadingBar(lettere.length);
   }
   usaLista();
@@ -87,9 +91,9 @@ function usaLista() {
   setAppState('drinkList');
 
   drinkBtn();
-  selectBtn();
+  azBtn();
   dadoBtn();
-
+  selectBtn();
 
 }
 // gestisce il clic della drinkCard
@@ -102,7 +106,37 @@ function drinkBtn() {
     });
   });
 }
+// gestisce il clic della Select List
+function azBtn() {
+  azIcon.addEventListener('click', () => {
+    azIcon.classList.add('hidden');
+    Letterlist.classList.remove('hidden');
+  });
 
+  Letterlist.addEventListener('change', () => {
+    Letterlist.classList.add('hidden');
+    azIcon.textContent = lettere[Letterlist.selectedIndex].toUpperCase();
+    azIcon.classList.remove('hidden');
+
+    while (phList.firstChild) {
+      phList.firstChild.remove();
+    }
+    while (selectDropdown.firstChild) {
+      selectDropdown.firstChild.remove();
+    }
+    let idFirst = 0;
+    let idLast = 0;
+    for (let i = 0; i < Letterlist.selectedIndex; i++) {
+      idFirst = idFirst + lettereLength[i];
+    }
+    console.log("selectindex:", Letterlist.selectedIndex, "  idFirst:", idFirst);
+    idLast = idFirst + lettereLength[Letterlist.selectedIndex];
+    for (let key = idFirst; key < idLast; key++) {
+      createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id);
+      createOption(CocktailList[key].nome, CocktailList[key].id);
+    }
+  });
+}
 // gestisce il clic della Select List
 function selectBtn() {
   selectDropdown.addEventListener('change', () => {
@@ -235,7 +269,7 @@ function inserisciIngredienti(id) {
 function createOptionLetter(lettera, grandezza) {
   const option = document.createElement("option");
   option.value = grandezza;
-  option.appendChild(document.createTextNode(lettera));
+  option.appendChild(document.createTextNode(lettera.toUpperCase()));
   Letterlist.appendChild(option);
 }
 // inserisce i nomi dei drink nel menu a tendina in basso a destra
@@ -245,7 +279,7 @@ function createOption(value, idCk) {
   option.appendChild(document.createTextNode(value));
   selectDropdown.appendChild(option);
 }
-//sort_by_alpha
+
 // inserisce immagine nel body all'interno di phList e assegno il nome
 function createImgList(urlImg, nameCk, idCk) {
   const div = document.createElement("div");
