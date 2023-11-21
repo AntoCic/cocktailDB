@@ -12,6 +12,7 @@
 
 
 const selectDropdown = document.getElementById("listDk");
+const Letterlist = document.getElementById("Letterlist");
 const phList = document.getElementById("phList");
 const loadingBar = document.querySelector(".loadingBar")
 const drinkName = document.getElementById("drinkName");
@@ -22,8 +23,9 @@ const drinkGlass = document.getElementById("drinkGlass");
 const backArrow = document.getElementById("backArrow");
 const dado = document.getElementById("dado");
 
-// , "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
-let lettere = { a: 0, b: 0, c: 0 };
+// , "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
+let lettere = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+let lettereLength = [];
 let CocktailList = [];
 let progresLoading = 0;
 
@@ -50,7 +52,7 @@ async function scaricaDrink(lettera) {
 //e li carica in un ogetto unico
 async function creaCocktailList() {
   let idEl = 0;
-  for (let lettera of Object.keys(lettere)) {
+  for (let lettera of lettere) {
     const elementiScaicati = await scaricaDrink(lettera)
       .catch(function (errore) {
         console.log(errore);
@@ -61,8 +63,10 @@ async function creaCocktailList() {
       CocktailList.push({ id: idEl, nome: drink[key].strDrink, immageUrl: drink[key].strDrinkThumb, bicchiere: drink[key].strGlass, IBA: drink[key].strIBA, misura1: drink[key].strMeasure1, ingrediente1: drink[key].strIngredient1, misura2: drink[key].strMeasure2, ingrediente2: drink[key].strIngredient2, misura3: drink[key].strMeasure3, ingrediente3: drink[key].strIngredient3, misura4: drink[key].strMeasure4, ingrediente4: drink[key].strIngredient4, misura5: drink[key].strMeasure5, ingrediente5: drink[key].strIngredient5, misura6: drink[key].strMeasure6, ingrediente6: drink[key].strIngredient6, misura7: drink[key].strMeasure7, ingrediente7: drink[key].strIngredient7, misura8: drink[key].strMeasure8, ingrediente8: drink[key].strIngredient8, misura9: drink[key].strMeasure9, ingrediente9: drink[key].strIngredient9, misura10: drink[key].strMeasure10, ingrediente10: drink[key].strIngredient10, metodo: drink[key].strInstructionsIT })
       idEl++;
     }
-    lettere.b = drink.length;
-    console.log(lettere);
+    //crea un riferimento per capire da quale drink partire per ogni lettera
+    if (drink) {
+      lettereLength.push(drink.length);
+    } else { lettereLength.push(0); }
     progresLoadingBar(lettere.length);
   }
   usaLista();
@@ -75,7 +79,11 @@ function usaLista() {
     createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id);
     createOption(CocktailList[key].nome, CocktailList[key].id);
   }
-  //cambia schermata
+  for (let key in lettere) {
+    createOptionLetter(lettere[key], lettereLength[key]);
+  }
+
+  //cambia schermata 
   setAppState('drinkList');
 
   drinkBtn();
@@ -223,6 +231,13 @@ function inserisciIngredienti(id) {
   drinkIngredients.innerText = ingredientsList;
 }
 
+// inserisce le lettere nel menu a tendina in basso a sinistra
+function createOptionLetter(lettera, grandezza) {
+  const option = document.createElement("option");
+  option.value = grandezza;
+  option.appendChild(document.createTextNode(lettera));
+  Letterlist.appendChild(option);
+}
 // inserisce i nomi dei drink nel menu a tendina in basso a destra
 function createOption(value, idCk) {
   const option = document.createElement("option");
@@ -230,7 +245,7 @@ function createOption(value, idCk) {
   option.appendChild(document.createTextNode(value));
   selectDropdown.appendChild(option);
 }
-
+//sort_by_alpha
 // inserisce immagine nel body all'interno di phList e assegno il nome
 function createImgList(urlImg, nameCk, idCk) {
   const div = document.createElement("div");
