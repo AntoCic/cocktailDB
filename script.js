@@ -23,7 +23,7 @@ const backArrow = document.getElementById("backArrow");
 const dado = document.getElementById("dado");
 
 // , "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
-let lettere = ['a', 'b', "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+let lettere = { a: 0, b: 0, c: 0 };
 let CocktailList = [];
 let progresLoading = 0;
 
@@ -50,7 +50,7 @@ async function scaricaDrink(lettera) {
 //e li carica in un ogetto unico
 async function creaCocktailList() {
   let idEl = 0;
-  for (let lettera of lettere) {
+  for (let lettera of Object.keys(lettere)) {
     const elementiScaicati = await scaricaDrink(lettera)
       .catch(function (errore) {
         console.log(errore);
@@ -61,6 +61,8 @@ async function creaCocktailList() {
       CocktailList.push({ id: idEl, nome: drink[key].strDrink, immageUrl: drink[key].strDrinkThumb, bicchiere: drink[key].strGlass, IBA: drink[key].strIBA, misura1: drink[key].strMeasure1, ingrediente1: drink[key].strIngredient1, misura2: drink[key].strMeasure2, ingrediente2: drink[key].strIngredient2, misura3: drink[key].strMeasure3, ingrediente3: drink[key].strIngredient3, misura4: drink[key].strMeasure4, ingrediente4: drink[key].strIngredient4, misura5: drink[key].strMeasure5, ingrediente5: drink[key].strIngredient5, misura6: drink[key].strMeasure6, ingrediente6: drink[key].strIngredient6, misura7: drink[key].strMeasure7, ingrediente7: drink[key].strIngredient7, misura8: drink[key].strMeasure8, ingrediente8: drink[key].strIngredient8, misura9: drink[key].strMeasure9, ingrediente9: drink[key].strIngredient9, misura10: drink[key].strMeasure10, ingrediente10: drink[key].strIngredient10, metodo: drink[key].strInstructionsIT })
       idEl++;
     }
+    lettere.b = drink.length;
+    console.log(lettere);
     progresLoadingBar(lettere.length);
   }
   usaLista();
@@ -72,7 +74,6 @@ function usaLista() {
   for (let key in Object.keys(CocktailList)) {
     createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id);
     createOption(CocktailList[key].nome, CocktailList[key].id);
-    console.log(CocktailList[key].bicchiere);
   }
   //cambia schermata
   setAppState('drinkList');
@@ -109,8 +110,6 @@ function dadoBtn() {
 // inserisce le informazioni del drink nella schermata drink
 function drinkSection(id) {
   setAppState('drink');
-
-  console.log(id, " ", CocktailList[id].nome, " ", CocktailList[id].bicchiere);
 
   switch (CocktailList[id].bicchiere) {
     case "Cocktail glass" || "Martini Glass" || "Coupe Glass":
