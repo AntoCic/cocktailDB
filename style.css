@@ -64,6 +64,19 @@ header {
 	cursor: pointer;
 }
 
+.drinkCard p {
+	position: relative;
+	bottom: 20%;
+
+	z-index: 1;
+	color: #e0dbcf;
+	background-color: #53718846;
+	border-radius: 5px;
+	padding: 3px;
+	max-width: fit-content;
+	margin: 10px;
+}
+
 #imgDrink {
 	width: 170px;
 	border-radius: 20px;

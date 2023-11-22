@@ -4,8 +4,8 @@
 // ---3 sistemare il tasto az
 // ---3.1 sistemare il tasto az toglere lettera per evitare il doppio click 
 // ---3.2 sistemare il tasto az non si puo cliccare sulle carte dei drink
-// 3.3 sistemare il tasto az trasformare il tasto dado in un tasto per riavere tutti i drink
-// 4 aggiungere il nome nella foto 
+// ---3.3 sistemare il tasto az trasformare il tasto dado in un tasto per riavere tutti i drink
+// ---4 aggiungere il nome nella foto 
 // 4.1 aggiungere il logo certificazione iba nella foto 
 // 5 aggiungere il logo certificazione iba nella pg drink
 // 6 selezionase i drink preferiti
@@ -26,7 +26,7 @@ const backArrow = document.getElementById("backArrow");
 const dado = document.getElementById("dado");
 
 // , "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
-let lettere = ["a", "b", "c"];
+let lettere = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 let lettereLength = [];
 let CocktailList = [];
 let progresLoading = 0;
@@ -77,24 +77,25 @@ async function creaCocktailList() {
 
 // funzione che sia avvia dopo aver creato l'oggetto CocktailList
 function usaLista() {
+  allDrinkList();
+  createOptionLetter()
+  drinkBtn();
+  //cambia schermata 
+  azBtn();
+  dadoBtn();
+  selectBtn();
+  setAppState('drinkList');
+}
+// crea lista drinkCard e del select in basso a destra di tutti i drink
+function allDrinkList() {
   console.log(CocktailList);
   for (let key in Object.keys(CocktailList)) {
     createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id);
     createOption(CocktailList[key].nome, CocktailList[key].id);
   }
-  for (let key in lettere) {
-    createOptionLetter(lettere[key], lettereLength[key]);
-  }
-
-  //cambia schermata 
-  setAppState('drinkList');
-
-  drinkBtn();
-  azBtn();
-  dadoBtn();
-  selectBtn();
 
 }
+
 // gestisce il clic della drinkCard
 function drinkBtn() {
   const drinkCard = document.querySelectorAll('.drinkCard');
@@ -116,20 +117,34 @@ function azBtn() {
     }
     let idFirst = 0;
     let idLast = 0;
-    for (let i = 0; i < Letterlist.selectedIndex; i++) {
-      idFirst = idFirst + lettereLength[i];
+    console.log(Letterlist.length);
+    if (Letterlist.selectedIndex === (Letterlist.length - 1)) {
+      h2[0].textContent = "TUTTI I DRINK";
+      dado.firstElementChild.textContent = "ifl";
+      while (phList.firstChild) {
+        phList.firstChild.remove();
+      }
+      while (selectDropdown.firstChild) {
+        selectDropdown.firstChild.remove();
+      }
+      allDrinkList();
+    } else {
+      for (let i = 0; i < Letterlist.selectedIndex; i++) {
+        idFirst = idFirst + lettereLength[i];
+      }
+      idLast = idFirst + lettereLength[Letterlist.selectedIndex];
+      for (let key = idFirst; key < idLast; key++) {
+        createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id);
+        createOption(CocktailList[key].nome, CocktailList[key].id);
+      }
+      h2[0].textContent = "DRINK : " + lettere[Letterlist.selectedIndex].toUpperCase();
+      dado.firstElementChild.textContent = "sort_by_alpha";
     }
-    idLast = idFirst + lettereLength[Letterlist.selectedIndex];
-    for (let key = idFirst; key < idLast; key++) {
-      createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id);
-      createOption(CocktailList[key].nome, CocktailList[key].id);
-    }
-    h2[0].textContent = "DRINK : " + lettere[Letterlist.selectedIndex].toUpperCase();
-    dado.firstElementChild.textContent = "sort_by_alpha";
 
     drinkBtn();
     setAppState('drinkList');
   });
+  Letterlist.selectedIndex = lettere.length;
 }
 // gestisce il clic della Select List
 function selectBtn() {
@@ -137,9 +152,27 @@ function selectBtn() {
     drinkSection(selectDropdown.value)
   });
 }
+
 function dadoBtn() {
   dado.addEventListener('click', () => {
-    drinkSection(Math.round(Math.random() * CocktailList.length))
+    const dadoIcon = dado.firstElementChild.textContent;
+    console.log(dadoIcon);
+    if (dadoIcon === "ifl") {
+      drinkSection(Math.round(Math.random() * CocktailList.length));
+    } else {
+      h2[0].textContent = "TUTTI I DRINK";
+      dado.firstElementChild.textContent = "ifl";
+      while (phList.firstChild) {
+        phList.firstChild.remove();
+      }
+      while (selectDropdown.firstChild) {
+        selectDropdown.firstChild.remove();
+      }
+      allDrinkList();
+      drinkBtn();
+      setAppState('drinkList');
+      Letterlist.selectedIndex = lettere.length;
+    }
   });
 }
 
@@ -260,10 +293,16 @@ function inserisciIngredienti(id) {
 }
 
 // inserisce le lettere nel menu a tendina in basso a sinistra
-function createOptionLetter(lettera, grandezza) {
+function createOptionLetter() {
+  for (let key in lettere) {
+    const option = document.createElement("option");
+    option.value = lettereLength[key];
+    option.appendChild(document.createTextNode(lettere[key].toUpperCase()));
+    Letterlist.appendChild(option);
+  }
   const option = document.createElement("option");
-  option.value = grandezza;
-  option.appendChild(document.createTextNode(lettera.toUpperCase()));
+  option.value = 0;
+  option.appendChild(document.createTextNode("A-Z"));
   Letterlist.appendChild(option);
 }
 // inserisce i nomi dei drink nel menu a tendina in basso a destra
@@ -282,7 +321,10 @@ function createImgList(urlImg, nameCk, idCk) {
   div.setAttribute("data-nome", nameCk);
   const img = document.createElement("img");
   img.setAttribute("src", urlImg);
+  const p = document.createElement("p");
+  p.textContent = nameCk;
   div.appendChild(img);
+  div.appendChild(p);
   phList.appendChild(div);
 }
 
