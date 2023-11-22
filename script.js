@@ -8,6 +8,7 @@
 // ---4 aggiungere il nome nella foto 
 // ---4.1 aggiungere il logo certificazione iba nella foto 
 // ---5 aggiungere il logo certificazione iba nella pg drink
+// ancorare img drinkcard quando si torna in dietro
 // 6 selezionase i drink preferiti
 // 7 sistemare un po di grandezze
 
@@ -227,7 +228,31 @@ function drinkSection(id) {
     ibaContainer[0].classList.add('hidden');
   }
 
+  imgDrink.addEventListener("click", function () {
+    setAppState('drinkList');
+    window.scrollTo(0, 1000);
+  });
 }
+
+/* <script>
+function getPageCoords (element) { // thanks to 'Martin Honnen' for this function
+var coords = {x: 0, y: 0};
+while (element) {
+coords.x += element.offsetLeft;
+coords.y += element.offsetTop;
+element = element.offsetParent;
+}
+return coords;
+}
+
+</script>
+...
+<br><br>
+<table border=1><tr><td>     </td><td>
+<img src=100x100.gif
+onload="p=getPageCoords(this);alert(p.x);alert(p.y);">
+</td></tr></table> */
+
 
 function inserisciIngredienti(id) {
   let ingredientsList = CocktailList[id].misura1 + " : " + CocktailList[id].ingrediente1 + "\n";
@@ -374,3 +399,5 @@ backBt.addEventListener("click", function () {
 
 // funzione primaria che avvia il download dei dati dall API
 creaCocktailList();
+
+//window.location.hash = "#downloads";
