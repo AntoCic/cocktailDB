@@ -7,7 +7,7 @@
 // ---3.3 sistemare il tasto az trasformare il tasto dado in un tasto per riavere tutti i drink
 // ---4 aggiungere il nome nella foto 
 // ---4.1 aggiungere il logo certificazione iba nella foto 
-// 5 aggiungere il logo certificazione iba nella pg drink
+// ---5 aggiungere il logo certificazione iba nella pg drink
 // 6 selezionase i drink preferiti
 // 7 sistemare un po di grandezze
 
@@ -219,6 +219,14 @@ function drinkSection(id) {
   inserisciIngredienti(id);
 
   drinkMetod.innerText = CocktailList[id].metodo;
+  const ibaContainer = document.getElementsByClassName("ibaContainer")
+  if (!!CocktailList[id].IBA) {
+    ibaContainer[0].classList.remove('hidden');
+    ibaContainer[0].lastElementChild.textContent = CocktailList[id].IBA;
+  } else {
+    ibaContainer[0].classList.add('hidden');
+  }
+
 }
 
 function inserisciIngredienti(id) {
@@ -329,7 +337,7 @@ function createImgList(urlImg, nameCk, idCk, iba) {
   if (iba) {
     const imglogoIba = document.createElement("img");
     imglogoIba.setAttribute("src", "img/logo-iba.svg");
-    imglogoIba.classList.add('logoIba');
+    imglogoIba.classList.add('listLogoIba');
     div.appendChild(imglogoIba);
   }
   phList.appendChild(div);
