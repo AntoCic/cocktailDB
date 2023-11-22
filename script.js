@@ -6,7 +6,7 @@
 // ---3.2 sistemare il tasto az non si puo cliccare sulle carte dei drink
 // ---3.3 sistemare il tasto az trasformare il tasto dado in un tasto per riavere tutti i drink
 // ---4 aggiungere il nome nella foto 
-// 4.1 aggiungere il logo certificazione iba nella foto 
+// ---4.1 aggiungere il logo certificazione iba nella foto 
 // 5 aggiungere il logo certificazione iba nella pg drink
 // 6 selezionase i drink preferiti
 // 7 sistemare un po di grandezze
@@ -90,7 +90,7 @@ function usaLista() {
 function allDrinkList() {
   console.log(CocktailList);
   for (let key in Object.keys(CocktailList)) {
-    createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id);
+    createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id, !!CocktailList[key].IBA);
     createOption(CocktailList[key].nome, CocktailList[key].id);
   }
 
@@ -134,7 +134,7 @@ function azBtn() {
       }
       idLast = idFirst + lettereLength[Letterlist.selectedIndex];
       for (let key = idFirst; key < idLast; key++) {
-        createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id);
+        createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id, !!CocktailList[key].IBA);
         createOption(CocktailList[key].nome, CocktailList[key].id);
       }
       h2[0].textContent = "DRINK : " + lettere[Letterlist.selectedIndex].toUpperCase();
@@ -314,20 +314,26 @@ function createOption(value, idCk) {
 }
 
 // inserisce immagine nel body all'interno di phList e assegno il nome
-function createImgList(urlImg, nameCk, idCk) {
+function createImgList(urlImg, nameCk, idCk, iba) {
   const div = document.createElement("div");
   div.classList.add('drinkCard');
   div.setAttribute("data-id", idCk);
   div.setAttribute("data-nome", nameCk);
   const img = document.createElement("img");
   img.setAttribute("src", urlImg);
+  img.classList.add('drinkCardImg');
   const p = document.createElement("p");
   p.textContent = nameCk;
   div.appendChild(img);
   div.appendChild(p);
+  if (iba) {
+    const imglogoIba = document.createElement("img");
+    imglogoIba.setAttribute("src", "img/logo-iba.svg");
+    imglogoIba.classList.add('logoIba');
+    div.appendChild(imglogoIba);
+  }
   phList.appendChild(div);
 }
-
 
 // aumenta barra di caricamento
 function progresLoadingBar(max) {
@@ -338,7 +344,6 @@ function progresLoadingBar(max) {
   loadingBar.appendChild(div);
   if (progresLoading === max) { progresLoading = 0; }
 }
-
 
 //cambia schermata tra "loading" "drinkList"  "drink"
 function setAppState(state) {
@@ -359,45 +364,5 @@ backBt.addEventListener("click", function () {
   setAppState('drinkList');
 });
 
-
-
 // funzione primaria che avvia il download dei dati dall API
 creaCocktailList();
-
-
-
-
-
-
-
-
-// for (i = 0; i < lettere.length; i++) {
-//   fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${lettere[i]}`)
-//     .then((response) => response.json())
-//     .then((data) => {
-//       const obj = data.drinks;
-//       console.log(obj)
-//       // for (let key of Object.keys(obj)) {
-//       //   // console.log(key);
-//       //   Cocktail.push({ id: obj[key].idDrink, nome: obj[key].strDrink, immage: obj[key].strDrinkThumb, bicchiere: obj[key].strGlass, IBA: obj[key].strIBA, misura1: obj[key].strMeasure1, ingrediente1: obj[key].strIngredient1, misura2: obj[key].strMeasure2, ingrediente2: obj[key].strIngredient2, misura3: obj[key].strMeasure3, ingrediente3: obj[key].strIngredient3, misura4: obj[key].strMeasure4, ingrediente4: obj[key].strIngredient4, misura5: obj[key].strMeasure5, ingrediente5: obj[key].strIngredient5, misura6: obj[key].strMeasure6, ingrediente6: obj[key].strIngredient6, misura7: obj[key].strMeasure7, ingrediente7: obj[key].strIngredient7, misura8: obj[key].strMeasure8, ingrediente8: obj[key].strIngredient8, misura9: obj[key].strMeasure9, ingrediente9: obj[key].strIngredient9, misura10: obj[key].strMeasure10, ingrediente10: obj[key].strIngredient10, metodo: obj[key].strInstructionsIT })
-//       // }
-//       // let n = 0;
-
-//       // x++;
-//       // if (lettere.length == (x + 1)) {
-//       //   console.log(Cocktail);
-
-//       //   for (let key of Object.keys(Cocktail)) {
-//       //     CocktailsName.push(Cocktail[key].nome);
-//       //     CocktaiImg.push(Cocktail[key].immage);
-//       //     createImgList(Cocktail[key].immage, Cocktail[key].nome);
-//       //   }
-
-//       //   Cocktailsista = CocktailsName.sort();
-//       //   for (ii = 0; ii < Cocktailsista.length; ii++) {
-//       //     createOption(Cocktailsista[ii]);
-//       //     //createImgList(CocktaiImg[ii],CocktailsName[ii]);
-//       //   }
-//       // };
-//     });
-// }

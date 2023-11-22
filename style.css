@@ -58,10 +58,18 @@ header {
 	margin-right: calc(50vw - 100px);
 }
 
-.drinkCard img {
+.drinkCardImg {
 	width: 170px;
 	border-radius: 20px;
 	cursor: pointer;
+}
+
+.logoIba {
+	position: relative;
+	z-index: 1;
+	bottom: 215px;
+	left: 125px;
+	width: 40px;
 }
 
 .drinkCard p {
@@ -168,7 +176,7 @@ header {
 	padding: 20px;
 	font-size: 21px;
 	font-weight: 600;
-
+	z-index: 3;
 }
 
 select {
