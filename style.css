@@ -28,9 +28,16 @@ header {
 
 .backArrow {
 	position: fixed;
-	top: 10px;
+	top: 15px;
 	right: 10px;
 }
+
+#arrowB {
+	padding-left: 10px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
 
 /* drinkList */
 .drinkList {
@@ -40,7 +47,8 @@ header {
 	gap: 10px;
 }
 
-.drinkList p {
+.drinkList h2 {
+	font-size: initial;
 	padding: 3px;
 	border: 2px solid black;
 	border-bottom: #CBB279;
@@ -151,13 +159,21 @@ header {
 }
 
 select {
-	background-color: #CBB279;
+	background-color: #537188;
 	padding: 5px;
 	border-radius: 10px;
-	border: 2px solid #537188;
-	color: #0d2d46;
+	border: 2px solid #CBB279;
+	color: #CBB279;
 	width: fit-content;
+	max-width: 130px;
 	grid-column: 3/4;
+}
+
+.borderSymbols {
+	padding: 2px;
+	border-radius: 10px;
+	border: 2px solid #CBB279;
+	color: #CBB279;
 }
 
 .hidden {

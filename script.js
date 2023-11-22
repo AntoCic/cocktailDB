@@ -2,8 +2,8 @@
 // ---1 dividere i drink per lettera registrando la quantita di drink per lettera
 // ---2 sistemare logo bicchieri
 // ---3 sistemare il tasto az
-// 3.1 sistemare il tasto az toglere lettera per evitare il doppio click 
-// 3.2 sistemare il tasto az non si puo cliccare sulle carte dei drink
+// ---3.1 sistemare il tasto az toglere lettera per evitare il doppio click 
+// ---3.2 sistemare il tasto az non si puo cliccare sulle carte dei drink
 // 3.3 sistemare il tasto az trasformare il tasto dado in un tasto per riavere tutti i drink
 // 4 aggiungere il nome nella foto 
 // 4.1 aggiungere il logo certificazione iba nella foto 
@@ -12,8 +12,7 @@
 // 7 sistemare un po di grandezze
 
 
-
-const azIcon = document.getElementById("azIcon");
+const h2 = document.getElementsByTagName("h2");
 const selectDropdown = document.getElementById("listDk");
 const Letterlist = document.getElementById("Letterlist");
 const phList = document.getElementById("phList");
@@ -27,7 +26,7 @@ const backArrow = document.getElementById("backArrow");
 const dado = document.getElementById("dado");
 
 // , "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
-let lettere = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+let lettere = ["a", "b", "c"];
 let lettereLength = [];
 let CocktailList = [];
 let progresLoading = 0;
@@ -108,16 +107,7 @@ function drinkBtn() {
 }
 // gestisce il clic della Select List
 function azBtn() {
-  azIcon.addEventListener('click', () => {
-    azIcon.classList.add('hidden');
-    Letterlist.classList.remove('hidden');
-  });
-
   Letterlist.addEventListener('change', () => {
-    Letterlist.classList.add('hidden');
-    azIcon.textContent = lettere[Letterlist.selectedIndex].toUpperCase();
-    azIcon.classList.remove('hidden');
-
     while (phList.firstChild) {
       phList.firstChild.remove();
     }
@@ -129,12 +119,16 @@ function azBtn() {
     for (let i = 0; i < Letterlist.selectedIndex; i++) {
       idFirst = idFirst + lettereLength[i];
     }
-    console.log("selectindex:", Letterlist.selectedIndex, "  idFirst:", idFirst);
     idLast = idFirst + lettereLength[Letterlist.selectedIndex];
     for (let key = idFirst; key < idLast; key++) {
       createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id);
       createOption(CocktailList[key].nome, CocktailList[key].id);
     }
+    h2[0].textContent = "DRINK : " + lettere[Letterlist.selectedIndex].toUpperCase();
+    dado.firstElementChild.textContent = "sort_by_alpha";
+
+    drinkBtn();
+    setAppState('drinkList');
   });
 }
 // gestisce il clic della Select List
