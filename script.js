@@ -10,7 +10,7 @@
 // ---5 aggiungere il logo certificazione iba nella pg drink
 // ---ancorare img drinkcard quando si torna in dietro
 // 6 selezionase i drink preferiti
-// 7 sistemare un po di grandezze
+// 7 ---sistemare un po di grandezze
 
 
 const h2 = document.getElementsByTagName("h2");
@@ -27,7 +27,7 @@ const backArrow = document.getElementById("backArrow");
 const dado = document.getElementById("dado");
 
 // , "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
-let lettere = ["a", "b", "c"];
+let lettere = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 let lettereLength = [];
 let CocktailList = [];
 let progresLoading = 0;
