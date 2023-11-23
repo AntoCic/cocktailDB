@@ -215,7 +215,7 @@ select {
 	padding: 2px;
 	border-radius: 4px;
 	border: 2px solid #CBB279;
-	color: #CBB279;
+	color: rgb(204, 179, 123)
 }
 
 .hidden {
