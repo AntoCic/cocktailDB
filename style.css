@@ -72,12 +72,16 @@ header {
 	width: 40px;
 }
 
+.drinkCard {
+	max-height: 170px;
+}
+
 .drinkCard p {
-	position: relative;
-	bottom: 20%;
 	z-index: 1;
-	color: #e0dbcf;
-	background-color: #53718846;
+	position: relative;
+	bottom: 30%;
+	color: #ffffff;
+	background-color: rgba(141, 158, 170, 0.425);
 	border-radius: 5px;
 	padding: 3px;
 	max-width: fit-content;

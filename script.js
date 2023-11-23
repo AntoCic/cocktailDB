@@ -8,7 +8,7 @@
 // ---4 aggiungere il nome nella foto 
 // ---4.1 aggiungere il logo certificazione iba nella foto 
 // ---5 aggiungere il logo certificazione iba nella pg drink
-// ancorare img drinkcard quando si torna in dietro
+// ---ancorare img drinkcard quando si torna in dietro
 // 6 selezionase i drink preferiti
 // 7 sistemare un po di grandezze
 
@@ -27,10 +27,11 @@ const backArrow = document.getElementById("backArrow");
 const dado = document.getElementById("dado");
 
 // , "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
-let lettere = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+let lettere = ["a", "b", "c"];
 let lettereLength = [];
 let CocktailList = [];
 let progresLoading = 0;
+let lastDrinkY = 0;
 
 
 
@@ -101,8 +102,9 @@ function allDrinkList() {
 function drinkBtn() {
   const drinkCard = document.querySelectorAll('.drinkCard');
   drinkCard.forEach(function (el) {
-    el.addEventListener('click', function () {
+    el.addEventListener('click', function (e) {
       const idDrink = el.getAttribute("data-id");
+      lastDrinkY = window.scrollY;
       drinkSection(idDrink);
     });
   });
@@ -118,7 +120,6 @@ function azBtn() {
     }
     let idFirst = 0;
     let idLast = 0;
-    console.log(Letterlist.length);
     if (Letterlist.selectedIndex === (Letterlist.length - 1)) {
       h2[0].textContent = "TUTTI I DRINK";
       dado.firstElementChild.textContent = "ifl";
@@ -157,7 +158,6 @@ function selectBtn() {
 function dadoBtn() {
   dado.addEventListener('click', () => {
     const dadoIcon = dado.firstElementChild.textContent;
-    console.log(dadoIcon);
     if (dadoIcon === "ifl") {
       drinkSection(Math.round(Math.random() * CocktailList.length));
     } else {
@@ -180,7 +180,27 @@ function dadoBtn() {
 // inserisce le informazioni del drink nella schermata drink
 function drinkSection(id) {
   setAppState('drink');
+  inserisciIconaBicchiere(id);
+  imgDrink.setAttribute("src", CocktailList[id].immageUrl);
+  drinkName.innerText = CocktailList[id].nome;
+  inserisciIngredienti(id);
 
+  drinkMetod.innerText = CocktailList[id].metodo;
+  const ibaContainer = document.getElementsByClassName("ibaContainer")
+  if (!!CocktailList[id].IBA) {
+    ibaContainer[0].classList.remove('hidden');
+    ibaContainer[0].lastElementChild.textContent = CocktailList[id].IBA;
+  } else {
+    ibaContainer[0].classList.add('hidden');
+  }
+
+  imgDrink.addEventListener("click", function () {
+    setAppState('drinkList');
+    window.scrollTo(0, lastDrinkY);
+  });
+}
+// inserisce l'icona nella drink Page
+function inserisciIconaBicchiere(id) {
   switch (CocktailList[id].bicchiere) {
     case "Cocktail glass" || "Martini Glass" || "Coupe Glass":
       drinkGlass.setAttribute("src", "img/martini.png");
@@ -209,51 +229,11 @@ function drinkSection(id) {
     case "Hurricane glass":
       drinkGlass.setAttribute("src", "img/hurricane.png");
       break;
-
-
-
     default:
       drinkGlass.setAttribute("src", "img/martini.png");
   }
-  imgDrink.setAttribute("src", CocktailList[id].immageUrl);
-  drinkName.innerText = CocktailList[id].nome;
-  inserisciIngredienti(id);
-
-  drinkMetod.innerText = CocktailList[id].metodo;
-  const ibaContainer = document.getElementsByClassName("ibaContainer")
-  if (!!CocktailList[id].IBA) {
-    ibaContainer[0].classList.remove('hidden');
-    ibaContainer[0].lastElementChild.textContent = CocktailList[id].IBA;
-  } else {
-    ibaContainer[0].classList.add('hidden');
-  }
-
-  imgDrink.addEventListener("click", function () {
-    setAppState('drinkList');
-    window.scrollTo(0, 1000);
-  });
 }
-
-/* <script>
-function getPageCoords (element) { // thanks to 'Martin Honnen' for this function
-var coords = {x: 0, y: 0};
-while (element) {
-coords.x += element.offsetLeft;
-coords.y += element.offsetTop;
-element = element.offsetParent;
-}
-return coords;
-}
-
-</script>
-...
-<br><br>
-<table border=1><tr><td>     </td><td>
-<img src=100x100.gif
-onload="p=getPageCoords(this);alert(p.x);alert(p.y);">
-</td></tr></table> */
-
-
+// inserisce gli ingradienti nella drink Page
 function inserisciIngredienti(id) {
   let ingredientsList = CocktailList[id].misura1 + " : " + CocktailList[id].ingrediente1 + "\n";
 
@@ -271,7 +251,6 @@ function inserisciIngredienti(id) {
       ingredientsList = ingredientsList + "Un pó di " + CocktailList[id].ingrediente3 + "\n";
     }
   }
-  console.log(!!CocktailList[id].ingrediente4);
   if (!!CocktailList[id].ingrediente4) {
     if (!!CocktailList[id].misura4) {
       ingredientsList = ingredientsList + CocktailList[id].misura4 + " : " + CocktailList[id].ingrediente4 + "\n";
@@ -333,6 +312,7 @@ function createOptionLetter() {
     option.appendChild(document.createTextNode(lettere[key].toUpperCase()));
     Letterlist.appendChild(option);
   }
+  // crea una optin nel select lettere che descrive il contenuto del select(A-Z dalla A alla Z)
   const option = document.createElement("option");
   option.value = 0;
   option.appendChild(document.createTextNode("A-Z"));
@@ -359,6 +339,7 @@ function createImgList(urlImg, nameCk, idCk, iba) {
   p.textContent = nameCk;
   div.appendChild(img);
   div.appendChild(p);
+  //inserisce logo se in iba c'é qualcosa
   if (iba) {
     const imglogoIba = document.createElement("img");
     imglogoIba.setAttribute("src", "img/logo-iba.svg");
@@ -391,13 +372,26 @@ function setAppState(state) {
   }
 }
 
-// torna alla schermata drinkList premando l'header
-const backBt = document.getElementById("backBt");
-backBt.addEventListener("click", function () {
+// torna alla schermata drinkList premando il logo o titolo dell'header
+const logoBt = document.getElementById("logoBt");
+logoBt.addEventListener("click", function () {
+  h2[0].textContent = "TUTTI I DRINK";
+  dado.firstElementChild.textContent = "ifl";
+  while (phList.firstChild) {
+    phList.firstChild.remove();
+  }
+  while (selectDropdown.firstChild) {
+    selectDropdown.firstChild.remove();
+  }
+  allDrinkList();
+  drinkBtn();
   setAppState('drinkList');
+});
+// torna alla schermata drinkList premando il logo o titolo dell'header
+backArrow.addEventListener("click", function () {
+  setAppState('drinkList');
+  window.scrollTo(0, lastDrinkY);
 });
 
 // funzione primaria che avvia il download dei dati dall API
 creaCocktailList();
-
-//window.location.hash = "#downloads";
