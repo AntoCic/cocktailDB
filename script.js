@@ -370,6 +370,7 @@ function setAppState(state) {
     backArrow.classList.remove('hidden');
     backArrow.classList.add('material-symbols-outlined');
   }
+  selectDropdown.classList.remove('searchFocus');
 }
 
 // torna alla schermata drinkList premando il logo o titolo dell'header

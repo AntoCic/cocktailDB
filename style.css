@@ -244,7 +244,7 @@ select {
 	border: 2px solid #CBB279;
 	align-items: center;
 	/* background-image: linear-gradient(40deg, #111, #537188); */
-	color: red;
+	color: #CBB279;
 	padding: 4px;
 	border-radius: 4px;
 	border: 2px solid #CBB279;
@@ -275,12 +275,6 @@ select {
 
 .search__button:hover {
 	color: #5c4b23;
-}
-
-.search:focus-within select {
-	display: initial;
-	width: fit-content;
-	max-width: 100px;
 }
 
 .searchFocus {
