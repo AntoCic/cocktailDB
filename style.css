@@ -10,6 +10,21 @@
 	box-sizing: border-box;
 }
 
+.material-symbols-outlined {
+	color: #ffffff;
+	font-variation-settings:
+		'FILL' 0,
+		'wght' 400,
+		'GRAD' 0,
+		'opsz' 24
+}
+
+.full {
+	color: #F54552;
+	font-variation-settings:
+		'FILL' 1
+}
+
 h1 {
 	font-size: 30px;
 }
@@ -109,11 +124,22 @@ header {
 .leftBox {
 	grid-column: 1/2;
 	text-align: center;
+	max-width: 200px;
 }
 
 .rightBox {
 	grid-column: 2/3;
 	text-align: left;
+}
+
+#favoriteIcon {
+	z-index: 1;
+	position: relative;
+	bottom: 170px;
+	left: 60px;
+	max-width: fit-content;
+	margin: 10px;
+	font-size: 30px;
 }
 
 .bottomBox {
@@ -183,9 +209,9 @@ header {
 /* bottom bar */
 .bottombar {
 	position: fixed;
-	bottom: 6px;
-	right: 6px;
-	left: 6px;
+	bottom: 15px;
+	right: 10px;
+	left: 10px;
 	flex-wrap: nowrap;
 	justify-content: space-between;
 	align-items: center;
@@ -215,7 +241,7 @@ select {
 	padding: 2px;
 	border-radius: 4px;
 	border: 2px solid #CBB279;
-	color: rgb(204, 179, 123)
+	color: rgb(204, 179, 123);
 }
 
 .hidden {
@@ -251,7 +277,7 @@ select {
 	width: fit-content;
 }
 
-.search :is(select, button) {
+.search :is(select, span) {
 	background: transparent;
 	color: inherit;
 	border: none;
@@ -264,16 +290,16 @@ select {
 	transition: width 0.5s;
 }
 
-.search__button {
+#searchbtn {
 	display: grid;
 	place-items: center;
 	width: 25px;
 	height: 25px;
 	cursor: pointer;
-	transition: color 0.25s;
+	transition: color 0.5s;
 }
 
-.search__button:hover {
+#searchbtn:hover {
 	color: #5c4b23;
 }
 

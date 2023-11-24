@@ -9,10 +9,11 @@
 // ---4.1 aggiungere il logo certificazione iba nella foto 
 // ---5 aggiungere il logo certificazione iba nella pg drink
 // ---ancorare img drinkcard quando si torna in dietro
-// 6 selezionase i drink preferiti
-// 7 ---sistemare un po di grandezze
+// ---6 selezionase i drink preferiti
+// ---7 sistemare un po di grandezze
 
-
+const favoriteListIcon = document.getElementById("favoriteListIcon");
+const favoriteBtn = document.getElementById("favoriteIcon");
 const h2 = document.getElementsByTagName("h2");
 const selectDropdown = document.getElementById("listDk");
 const Letterlist = document.getElementById("Letterlist");
@@ -32,6 +33,55 @@ let lettereLength = [];
 let CocktailList = [];
 let progresLoading = 0;
 let lastDrinkY = 0;
+let btfavoriteListIcon = true;
+// chiave localstorage
+const storageKey = '_AC_DR_';
+
+let currentDrink = null;
+let savedIdDrink = [];
+
+const storage = localStorage.getItem(storageKey);
+if (storage) {
+  savedIdDrink = JSON.parse(storage);
+  console.log("inizio", savedIdDrink);
+} else {
+  currentDrink = { nameSave: "", idSave: "a" };
+  console.log("currentDrink:", currentDrink);
+  savedIdDrink.push(currentDrink);
+}
+// render ricette salvate
+// renderRecipes();
+
+// function renderRecipes() {
+//   recipes.innerHTML = '';
+
+//   if (savedIdDrink.length === 0) {
+//       recipes.innerHTML = '<p>Non hai ancora salvato ricette!</p>';
+//   }
+
+//   savedIdDrink.forEach(function (recipe, idx) {
+//       const recipeCard = recipeCardComponent(recipe, idx);
+//       recipes.appendChild(recipeCard);
+//   });
+// }
+
+function saveRecipe() {
+  savedIdDrink.push(currentDrink);
+  updateStorage();
+  console.log("Salvo = savedIdDrink", savedIdDrink);
+}
+
+function removeRecipe() {
+  const index = savedIdDrink.indexOf(currentDrink);
+  console.log(index);
+  savedIdDrink.splice(index, 1);
+  console.log("rimuovo = savedIdDrink", savedIdDrink);
+  updateStorage();
+}
+
+function updateStorage() {
+  localStorage.setItem(storageKey, JSON.stringify(savedIdDrink));
+}
 
 
 
@@ -112,23 +162,13 @@ function drinkBtn() {
 // gestisce il clic della Select List
 function azBtn() {
   Letterlist.addEventListener('change', () => {
-    while (phList.firstChild) {
-      phList.firstChild.remove();
-    }
-    while (selectDropdown.firstChild) {
-      selectDropdown.firstChild.remove();
-    }
+    svuotaDrinkList();
     let idFirst = 0;
     let idLast = 0;
     if (Letterlist.selectedIndex === (Letterlist.length - 1)) {
       h2[0].textContent = "TUTTI I DRINK";
       dado.firstElementChild.textContent = "ifl";
-      while (phList.firstChild) {
-        phList.firstChild.remove();
-      }
-      while (selectDropdown.firstChild) {
-        selectDropdown.firstChild.remove();
-      }
+      svuotaDrinkList();
       allDrinkList();
     } else {
       for (let i = 0; i < Letterlist.selectedIndex; i++) {
@@ -179,6 +219,13 @@ function dadoBtn() {
 
 // inserisce le informazioni del drink nella schermata drink
 function drinkSection(id) {
+  currentDrink = { nameSave: CocktailList[id].nome, idSave: id };
+  console.log("currentDrink:", currentDrink);
+  if (ceckSavedIdDrink()) {
+    favoriteBtn.classList.add('full');
+  } else {
+    favoriteBtn.classList.remove('full');
+  }
   setAppState('drink');
   inserisciIconaBicchiere(id);
   imgDrink.setAttribute("src", CocktailList[id].immageUrl);
@@ -378,12 +425,7 @@ const logoBt = document.getElementById("logoBt");
 logoBt.addEventListener("click", function () {
   h2[0].textContent = "TUTTI I DRINK";
   dado.firstElementChild.textContent = "ifl";
-  while (phList.firstChild) {
-    phList.firstChild.remove();
-  }
-  while (selectDropdown.firstChild) {
-    selectDropdown.firstChild.remove();
-  }
+  svuotaDrinkList();
   allDrinkList();
   drinkBtn();
   setAppState('drinkList');
@@ -399,6 +441,80 @@ const searchbtn = document.getElementById("searchbtn");
 searchbtn.addEventListener("click", function () {
   selectDropdown.classList.add('searchFocus');
 });
+
+// favorite button clik
+favoriteBtn.addEventListener("click", function () {
+  // if id é nell'elenco lo toglie ne no aggiunge
+  if (ceckSavedIdDrink()) {
+    removeRecipe();
+    favoriteBtn.classList.remove('full');
+  } else {
+    saveRecipe();
+    favoriteBtn.classList.add('full');
+  }
+
+
+});
+
+//controlla se nella lista dei drik salvati é presente il drink corrente
+function ceckSavedIdDrink() {
+  for (let key in Object.keys(savedIdDrink)) {
+    if (currentDrink.idSave === savedIdDrink[key].idSave) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
+
+
+favoriteListIcon.addEventListener("click", function () {
+  if (btfavoriteListIcon) {
+    btfavoriteListIcon = false;
+    favoriteListIcon.classList.add('full');
+    svuotaDrinkList();
+    favoriteDrinkList();
+  } else {
+    btfavoriteListIcon = true;
+    favoriteListIcon.classList.remove('full');
+    h2[0].textContent = "TUTTI I DRINK";
+    dado.firstElementChild.textContent = "ifl";
+    svuotaDrinkList();
+    allDrinkList();
+  }
+
+  drinkBtn();
+  setAppState('drinkList');
+
+});
+
+
+
+function favoriteDrinkList() {
+  for (let keySavedIdDrink in Object.keys(savedIdDrink)) {
+    if (keySavedIdDrink != 0) {
+      console.log(keySavedIdDrink);
+      const key = savedIdDrink[keySavedIdDrink].idSave;
+      createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id, !!CocktailList[key].IBA);
+      createOption(CocktailList[key].nome, CocktailList[key].id);
+
+    }
+
+  }
+  h2[0].textContent = "FAVORITE DRINK";
+  dado.firstElementChild.textContent = "sort_by_alpha";
+}
+
+function svuotaDrinkList() {
+  while (phList.firstChild) {
+    phList.firstChild.remove();
+  }
+  while (selectDropdown.firstChild) {
+    selectDropdown.firstChild.remove();
+  }
+}
+
 
 // funzione primaria che avvia il download dei dati dall API
 creaCocktailList();
