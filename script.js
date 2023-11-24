@@ -162,6 +162,7 @@ function drinkBtn() {
 // gestisce il clic della Select List
 function azBtn() {
   Letterlist.addEventListener('change', () => {
+    btFavoriteListoOff();
     svuotaDrinkList();
     let idFirst = 0;
     let idLast = 0;
@@ -219,6 +220,7 @@ function dadoBtn() {
 
 // inserisce le informazioni del drink nella schermata drink
 function drinkSection(id) {
+  btFavoriteListoOff();
   currentDrink = { nameSave: CocktailList[id].nome, idSave: id };
   console.log("currentDrink:", currentDrink);
   if (ceckSavedIdDrink()) {
@@ -423,6 +425,7 @@ function setAppState(state) {
 // torna alla schermata drinkList premando il logo o titolo dell'header
 const logoBt = document.getElementById("logoBt");
 logoBt.addEventListener("click", function () {
+  btFavoriteListoOff();
   h2[0].textContent = "TUTTI I DRINK";
   dado.firstElementChild.textContent = "ifl";
   svuotaDrinkList();
@@ -472,7 +475,6 @@ function ceckSavedIdDrink() {
 favoriteListIcon.addEventListener("click", function () {
   if (btfavoriteListIcon) {
     btfavoriteListIcon = false;
-    favoriteListIcon.classList.add('full');
     svuotaDrinkList();
     favoriteDrinkList();
   } else {
@@ -488,8 +490,10 @@ favoriteListIcon.addEventListener("click", function () {
   setAppState('drinkList');
 
 });
-
-
+function btFavoriteListoOff() {
+  btfavoriteListIcon = true;
+  favoriteListIcon.classList.remove('full');
+}
 
 function favoriteDrinkList() {
   for (let keySavedIdDrink in Object.keys(savedIdDrink)) {
