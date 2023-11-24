@@ -12,6 +12,8 @@
 // ---6 selezionase i drink preferiti
 // ---7 sistemare un po di grandezze
 
+// 8 da cell quando sei nella schermata favoriteListDrink il tasto search non funziona
+
 const favoriteListIcon = document.getElementById("favoriteListIcon");
 const favoriteBtn = document.getElementById("favoriteIcon");
 const h2 = document.getElementsByTagName("h2");
@@ -49,21 +51,6 @@ if (storage) {
   console.log("currentDrink:", currentDrink);
   savedIdDrink.push(currentDrink);
 }
-// render ricette salvate
-// renderRecipes();
-
-// function renderRecipes() {
-//   recipes.innerHTML = '';
-
-//   if (savedIdDrink.length === 0) {
-//       recipes.innerHTML = '<p>Non hai ancora salvato ricette!</p>';
-//   }
-
-//   savedIdDrink.forEach(function (recipe, idx) {
-//       const recipeCard = recipeCardComponent(recipe, idx);
-//       recipes.appendChild(recipeCard);
-//   });
-// }
 
 function saveRecipe() {
   savedIdDrink.push(currentDrink);
@@ -475,6 +462,7 @@ function ceckSavedIdDrink() {
 favoriteListIcon.addEventListener("click", function () {
   if (btfavoriteListIcon) {
     btfavoriteListIcon = false;
+    favoriteListIcon.classList.add('full');
     svuotaDrinkList();
     favoriteDrinkList();
   } else {
