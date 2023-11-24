@@ -393,5 +393,11 @@ backArrow.addEventListener("click", function () {
   window.scrollTo(0, lastDrinkY);
 });
 
+// apre il select
+const searchbtn = document.getElementById("searchbtn");
+searchbtn.addEventListener("click", function () {
+  selectDropdown.classList.add('searchFocus');
+});
+
 // funzione primaria che avvia il download dei dati dall API
 creaCocktailList();
