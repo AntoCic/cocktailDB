@@ -51,7 +51,7 @@ header {
 	font-size: initial;
 	padding: 3px;
 	border: 2px solid black;
-	border-bottom: #CBB279;
+	border-bottom: rgb(203, 178, 121);
 	margin-top: 10px;
 
 	margin-left: calc(50vw - 100px);
