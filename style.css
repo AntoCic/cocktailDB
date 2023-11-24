@@ -275,6 +275,9 @@ select {
 
 .search__button:hover {
 	color: #5c4b23;
+	display: initial;
+	width: fit-content;
+	max-width: 100px;
 }
 
 .search:focus-within select {
