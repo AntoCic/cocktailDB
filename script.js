@@ -163,10 +163,18 @@ function azBtn() {
         idFirst = idFirst + lettereLength[i];
       }
       idLast = idFirst + lettereLength[Letterlist.selectedIndex];
-      for (let key = idFirst; key < idLast; key++) {
-        createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id, !!CocktailList[key].IBA);
-        createOption(CocktailList[key].nome, CocktailList[key].id);
+      console.log(idFirst, ":", idLast);
+      if (idFirst - idLast) {
+        for (let key = idFirst; key < idLast; key++) {
+          createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id, !!CocktailList[key].IBA);
+          createOption(CocktailList[key].nome, CocktailList[key].id);
+        }
+      } else {
+        const p = document.createElement("p");
+        p.textContent = "Non ci sono drink con la lettera " + lettere[Letterlist.selectedIndex];
+        phList.appendChild(p);
       }
+
       h2[0].textContent = "DRINK : " + lettere[Letterlist.selectedIndex].toUpperCase();
       dado.firstElementChild.textContent = "sort_by_alpha";
     }
@@ -176,12 +184,14 @@ function azBtn() {
   });
   Letterlist.selectedIndex = lettere.length;
 }
+
 // gestisce il clic della Select List
 function selectBtn() {
   selectDropdown.addEventListener('change', () => {
     drinkSection(selectDropdown.value)
   });
 }
+
 // gestisce il clic sul dadoBt
 function dadoBtn() {
   dado.addEventListener('click', () => {
@@ -235,6 +245,7 @@ function drinkSection(id) {
     window.scrollTo(0, lastDrinkY);
   });
 }
+
 // inserisce l'icona nella drink Page
 function inserisciIconaBicchiere(id) {
   switch (CocktailList[id].bicchiere) {
@@ -372,7 +383,6 @@ function createImgList(urlImg, nameCk, idCk, iba) {
   img.setAttribute("src", urlImg);
   img.classList.add('drinkCardImg');
   const p = document.createElement("p");
-
   p.textContent = ridimensionaNome(nameCk);
   div.appendChild(img);
   div.appendChild(p);
@@ -385,6 +395,7 @@ function createImgList(urlImg, nameCk, idCk, iba) {
   }
   phList.appendChild(div);
 }
+
 // aumenta barra di caricamento
 function ridimensionaNome(nameCk) {
   if (nameCk.length > 18) {
