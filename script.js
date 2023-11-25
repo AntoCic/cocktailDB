@@ -182,7 +182,7 @@ function selectBtn() {
     drinkSection(selectDropdown.value)
   });
 }
-
+// gestisce il clic sul dadoBt
 function dadoBtn() {
   dado.addEventListener('click', () => {
     const dadoIcon = dado.firstElementChild.textContent;
@@ -362,7 +362,7 @@ function createOption(value, idCk) {
   selectDropdown.appendChild(option);
 }
 
-// inserisce immagine nel body all'interno di phList e assegno il nome
+// (crea la drinkCard)inserisce immagine nella drilikList Page e assegna il nome
 function createImgList(urlImg, nameCk, idCk, iba) {
   const div = document.createElement("div");
   div.classList.add('drinkCard');
@@ -372,7 +372,8 @@ function createImgList(urlImg, nameCk, idCk, iba) {
   img.setAttribute("src", urlImg);
   img.classList.add('drinkCardImg');
   const p = document.createElement("p");
-  p.textContent = nameCk;
+
+  p.textContent = ridimensionaNome(nameCk);
   div.appendChild(img);
   div.appendChild(p);
   //inserisce logo se in iba c'é qualcosa
@@ -383,6 +384,14 @@ function createImgList(urlImg, nameCk, idCk, iba) {
     div.appendChild(imglogoIba);
   }
   phList.appendChild(div);
+}
+// aumenta barra di caricamento
+function ridimensionaNome(nameCk) {
+  if (nameCk.length > 18) {
+    let nameCkRidimensionato = nameCk.slice(0, 17);
+    return nameCkRidimensionato;
+  }
+  return nameCk;
 }
 
 // aumenta barra di caricamento
