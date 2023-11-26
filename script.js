@@ -12,8 +12,6 @@
 // ---6 selezionase i drink preferiti
 // ---7 sistemare un po di grandezze
 
-// 8 da cell quando sei nella schermata favoriteListDrink il tasto search non funziona
-// quando con il tasto backArrow torna alla shermatra peferiti non ricarica i preferiti 
 
 const favoriteListIcon = document.getElementById("favoriteListIcon");
 const favoriteBtn = document.getElementById("favoriteIcon");
@@ -53,7 +51,7 @@ if (storage) {
   savedIdDrink.push(currentDrink);
 }
 
-function saveRecipe() {
+function saveDrink() {
   savedIdDrink.push(currentDrink);
   updateStorage();
   console.log("Salvo currentDrink:", savedIdDrink);
@@ -61,7 +59,7 @@ function saveRecipe() {
   console.log("______________________");
 }
 
-function removeRecipe() {
+function remuveDrink() {
   const idRimuovere = ceckIdSavedIdDrink();
   console.log("rimuovo currentDrink:", currentDrink);
   console.log("id:", idRimuovere);
@@ -74,7 +72,7 @@ function removeRecipe() {
   console.log("______________________");
   updateStorage();
 }
-//controlla 
+//cerca id da rimuovere
 function ceckIdSavedIdDrink() {
   for (let key in Object.keys(savedIdDrink)) {
     if (currentDrink.idSave === savedIdDrink[key].idSave) {
@@ -459,8 +457,15 @@ logoBt.addEventListener("click", function () {
   drinkBtn();
   setAppState('drinkList');
 });
-// torna alla schermata drinkList premando il logo o titolo dell'header
+// torna alla schermata drinkList la freccia indietro in alto a destra dell'header
 backArrow.addEventListener("click", function () {
+  if (h2[0].textContent === "FAVORITE DRINK") {
+    btfavoriteListIcon = false;
+    favoriteListIcon.classList.add('full');
+    svuotaDrinkList();
+    favoriteDrinkList();
+    drinkBtn();
+  }
   setAppState('drinkList');
   window.scrollTo(0, lastDrinkY);
 });
@@ -475,10 +480,10 @@ searchbtn.addEventListener("click", function () {
 favoriteBtn.addEventListener("click", function () {
   // if id é nell'elenco lo toglie ne no aggiunge
   if (ceckSavedIdDrink()) {
-    removeRecipe();
+    remuveDrink();
     favoriteBtn.classList.remove('full');
   } else {
-    saveRecipe();
+    saveDrink();
     favoriteBtn.classList.add('full');
   }
 
@@ -512,11 +517,10 @@ favoriteListIcon.addEventListener("click", function () {
     svuotaDrinkList();
     allDrinkList();
   }
-
   drinkBtn();
   setAppState('drinkList');
-
 });
+
 function btFavoriteListoOff() {
   btfavoriteListIcon = true;
   favoriteListIcon.classList.remove('full');
