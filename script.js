@@ -1,18 +1,8 @@
+// al momento mi feromo ma si deve abbellire la grafica e sistemare i colori 
+//per il resto funsiona tutto 
+//o almeno spero
 
-// ---1 dividere i drink per lettera registrando la quantita di drink per lettera
-// ---2 sistemare logo bicchieri
-// ---3 sistemare il tasto az
-// ---3.1 sistemare il tasto az toglere lettera per evitare il doppio click 
-// ---3.2 sistemare il tasto az non si puo cliccare sulle carte dei drink
-// ---3.3 sistemare il tasto az trasformare il tasto dado in un tasto per riavere tutti i drink
-// ---4 aggiungere il nome nella foto 
-// ---4.1 aggiungere il logo certificazione iba nella foto 
-// ---5 aggiungere il logo certificazione iba nella pg drink
-// ---ancorare img drinkcard quando si torna in dietro
-// ---6 selezionase i drink preferiti
-// ---7 sistemare un po di grandezze
-
-
+//__________________________________________________________________
 const favoriteListIcon = document.getElementById("favoriteListIcon");
 const favoriteBtn = document.getElementById("favoriteIcon");
 const h2 = document.getElementsByTagName("h2");
@@ -27,6 +17,7 @@ const imgDrink = document.getElementById("imgDrink");
 const drinkGlass = document.getElementById("drinkGlass");
 const backArrow = document.getElementById("backArrow");
 const dado = document.getElementById("dado");
+const searchbtn = document.getElementById("searchbtn");
 
 // , "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
 let lettere = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
@@ -35,12 +26,12 @@ let CocktailList = [];
 let progresLoading = 0;
 let lastDrinkY = 0;
 let btfavoriteListIcon = true;
+let currentDrink = null;
+let savedIdDrink = [];
 // chiave localstorage
 const storageKey = '_AC_DR_';
 
-let currentDrink = null;
-let savedIdDrink = [];
-
+// contorlla se ci sono drink preferiti salvati in locale
 const storage = localStorage.getItem(storageKey);
 if (storage) {
   savedIdDrink = JSON.parse(storage);
@@ -51,28 +42,26 @@ if (storage) {
   savedIdDrink.push(currentDrink);
 }
 
+// salva un drink nei preferiti
 function saveDrink() {
   savedIdDrink.push(currentDrink);
+  console.log("Salvo currentDrink in:", savedIdDrink);
   updateStorage();
-  console.log("Salvo currentDrink:", savedIdDrink);
-  console.log("nell ", savedIdDrink);
-  console.log("______________________");
 }
 
+// rimuove un drink dai preferiti
 function remuveDrink() {
   const idRimuovere = ceckIdSavedIdDrink();
-  console.log("rimuovo currentDrink:", currentDrink);
-  console.log("id:", idRimuovere);
-  console.log("dal ", savedIdDrink);
   if (idRimuovere) {
     savedIdDrink.splice(idRimuovere, 1);
   } else {
     console.log("Errore drink da rimuovere non trovato");
   }
-  console.log("______________________");
+  console.log("rimuovo currentDrink da:", savedIdDrink);
   updateStorage();
 }
-//cerca id da rimuovere
+
+// cerca id da rimuovere
 function ceckIdSavedIdDrink() {
   for (let key in Object.keys(savedIdDrink)) {
     if (currentDrink.idSave === savedIdDrink[key].idSave) {
@@ -82,13 +71,12 @@ function ceckIdSavedIdDrink() {
   return 0;
 }
 
+// carica i drink salvati nello storage locale
 function updateStorage() {
   localStorage.setItem(storageKey, JSON.stringify(savedIdDrink));
 }
 
-
-
-//Scarica drink per lettera in ordine alfabetico
+// Scarica drink per lettera in ordine alfabetico
 async function scaricaDrink(lettera) {
   return new Promise(function (resolve, reject) {
     fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${lettera}`)
@@ -105,8 +93,8 @@ async function scaricaDrink(lettera) {
   });
 }
 
-//esegue il download dei drink per lettera in ordine alfabetico
-//e li carica in un ogetto unico
+// esegue il download dei drink per lettera in ordine alfabetico
+// e li carica in un ogetto unico
 async function creaCocktailList() {
   let idEl = 0;
   for (let lettera of lettere) {
@@ -124,31 +112,37 @@ async function creaCocktailList() {
     if (drink) {
       lettereLength.push(drink.length);
     } else { lettereLength.push(0); }
-
+    // progres bar va aumentantando ad ogni lista di drink per lettera
     progresLoadingBar(lettere.length);
   }
   usaLista();
 }
 
-// funzione che sia avvia dopo aver creato l'oggetto CocktailList
+// funzione che si avvia dopo aver creato l'oggetto CocktailList
 function usaLista() {
   console.log(CocktailList);
+  // crea le drink card ea aggiunge tutti i drink nel select in basso a destra(nel bottomlBar)
   allDrinkList();
+  // aggiunge tutte le lettere nel select in basso a sinistra nel bottomBar
   createOptionLetter()
+  // aggiunge l'evento onClick alle drink card create
   drinkBtn();
-  //cambia schermata 
+  // aggiunge l'evento onChange nel select in basso a sinistra nel bottomBar
   azBtn();
+  // aggiunge l'evento onClick al dado in basso che mostra un drink caruale
   dadoBtn();
+  // aggiunge l'evento onChange nel select in basso a destra
   selectBtn();
+  //cambia schermata 
   setAppState('drinkList');
 }
+
 // crea lista drinkCard e del select in basso a destra di tutti i drink
 function allDrinkList() {
   for (let key in Object.keys(CocktailList)) {
     createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id, !!CocktailList[key].IBA);
     createOption(CocktailList[key].nome, CocktailList[key].id);
   }
-
 }
 
 // gestisce il clic della drinkCard
@@ -162,6 +156,7 @@ function drinkBtn() {
     });
   });
 }
+
 // gestisce il clic della Select List
 function azBtn() {
   Letterlist.addEventListener('change', () => {
@@ -188,6 +183,7 @@ function azBtn() {
         const p = document.createElement("p");
         p.textContent = "Non ci sono drink con la lettera " + lettere[Letterlist.selectedIndex];
         phList.appendChild(p);
+        createOption("no drink", 1000);
       }
 
       h2[0].textContent = "DRINK : " + lettere[Letterlist.selectedIndex].toUpperCase();
@@ -234,20 +230,15 @@ function dadoBtn() {
 function drinkSection(id) {
   btFavoriteListoOff();
   currentDrink = { nameSave: CocktailList[id].nome, idSave: String(id) };
-  console.log("______________________");
   console.log("currentDrink:", currentDrink);
-  console.log("______________________");
   if (ceckSavedIdDrink()) {
     favoriteBtn.classList.add('full');
-  } else {
-    favoriteBtn.classList.remove('full');
-  }
+  } else { favoriteBtn.classList.remove('full'); }
   setAppState('drink');
   inserisciIconaBicchiere(id);
   imgDrink.setAttribute("src", CocktailList[id].immageUrl);
   drinkName.innerText = CocktailList[id].nome;
   inserisciIngredienti(id);
-
   drinkMetod.innerText = CocktailList[id].metodo;
   const ibaContainer = document.getElementsByClassName("ibaContainer")
   if (!!CocktailList[id].IBA) {
@@ -256,8 +247,15 @@ function drinkSection(id) {
   } else {
     ibaContainer[0].classList.add('hidden');
   }
-
+  //torna in dietro  cliccando sull'immagine
   imgDrink.addEventListener("click", function () {
+    if (h2[0].textContent === "FAVORITE DRINK") {
+      btfavoriteListIcon = false;
+      favoriteListIcon.classList.add('full');
+      svuotaDrinkList();
+      favoriteDrinkList();
+      drinkBtn();
+    }
     setAppState('drinkList');
     window.scrollTo(0, lastDrinkY);
   });
@@ -382,6 +380,7 @@ function createOptionLetter() {
   option.appendChild(document.createTextNode("A-Z"));
   Letterlist.appendChild(option);
 }
+
 // inserisce i nomi dei drink nel menu a tendina in basso a destra
 function createOption(value, idCk) {
   const option = document.createElement("option");
@@ -457,6 +456,7 @@ logoBt.addEventListener("click", function () {
   drinkBtn();
   setAppState('drinkList');
 });
+
 // torna alla schermata drinkList la freccia indietro in alto a destra dell'header
 backArrow.addEventListener("click", function () {
   if (h2[0].textContent === "FAVORITE DRINK") {
@@ -471,7 +471,6 @@ backArrow.addEventListener("click", function () {
 });
 
 // apre il select
-const searchbtn = document.getElementById("searchbtn");
 searchbtn.addEventListener("click", function () {
   selectDropdown.classList.add('searchFocus');
 });
@@ -486,11 +485,9 @@ favoriteBtn.addEventListener("click", function () {
     saveDrink();
     favoriteBtn.classList.add('full');
   }
-
-
 });
 
-//controlla se nella lista dei drik salvati é presente il drink corrente
+// controlla se nella lista dei drik salvati é presente il drink corrente
 function ceckSavedIdDrink() {
   for (let key in Object.keys(savedIdDrink)) {
     if (currentDrink.idSave === savedIdDrink[key].idSave) {
@@ -500,9 +497,7 @@ function ceckSavedIdDrink() {
   return false;
 }
 
-
-
-
+// aggiunge l'evento onClick al button favoriteList(lista dei drink preferiti) in basso
 favoriteListIcon.addEventListener("click", function () {
   if (btfavoriteListIcon) {
     btfavoriteListIcon = false;
@@ -521,28 +516,37 @@ favoriteListIcon.addEventListener("click", function () {
   setAppState('drinkList');
 });
 
+// reset del button favoriteList(lista dei drink preferiti) in basso
 function btFavoriteListoOff() {
   btfavoriteListIcon = true;
   favoriteListIcon.classList.remove('full');
 }
 
+// crea la lista dei drik preferiti
 function favoriteDrinkList() {
-  for (let keySavedIdDrink in Object.keys(savedIdDrink)) {
-    if (keySavedIdDrink != 0) {
-      console.log("______________________");
-      console.log("Drink preferiti: ", keySavedIdDrink);
-      console.log("______________________");
-      const key = savedIdDrink[keySavedIdDrink].idSave;
-      createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id, !!CocktailList[key].IBA);
-      createOption(CocktailList[key].nome, CocktailList[key].id);
+  if (savedIdDrink.length > 1) {
+    for (let keySavedIdDrink in Object.keys(savedIdDrink)) {
+      if (keySavedIdDrink != 0) {
+        console.log("______________________");
+        console.log("Drink preferiti: ", keySavedIdDrink);
+        console.log("______________________");
+        const key = savedIdDrink[keySavedIdDrink].idSave;
+        createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id, !!CocktailList[key].IBA);
+        createOption(CocktailList[key].nome, CocktailList[key].id);
 
+      }
     }
-
+  } else {
+    const p = document.createElement("p");
+    p.textContent = "Non ci sono drink preferiti";
+    phList.appendChild(p);
+    createOption("no drink", 1000);
   }
   h2[0].textContent = "FAVORITE DRINK";
   dado.firstElementChild.textContent = "sort_by_alpha";
 }
 
+// rimuove tutte le drink card e le option nel select in basso a destra
 function svuotaDrinkList() {
   while (phList.firstChild) {
     phList.firstChild.remove();
@@ -551,6 +555,7 @@ function svuotaDrinkList() {
     selectDropdown.firstChild.remove();
   }
 }
+
 
 
 // funzione primaria che avvia il download dei dati dall API
