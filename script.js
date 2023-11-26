@@ -13,6 +13,7 @@
 // ---7 sistemare un po di grandezze
 
 // 8 da cell quando sei nella schermata favoriteListDrink il tasto search non funziona
+// quando con il tasto backArrow torna alla shermatra peferiti non ricarica i preferiti 
 
 const favoriteListIcon = document.getElementById("favoriteListIcon");
 const favoriteBtn = document.getElementById("favoriteIcon");
@@ -45,25 +46,42 @@ let savedIdDrink = [];
 const storage = localStorage.getItem(storageKey);
 if (storage) {
   savedIdDrink = JSON.parse(storage);
-  console.log("inizio", savedIdDrink);
+  console.log("savedIdDrink in memoria locale", savedIdDrink);
 } else {
   currentDrink = { nameSave: "", idSave: "a" };
-  console.log("currentDrink:", currentDrink);
+  console.log("non ci sono drink ne push uno per inizializzare la variabile: ", currentDrink);
   savedIdDrink.push(currentDrink);
 }
 
 function saveRecipe() {
   savedIdDrink.push(currentDrink);
   updateStorage();
-  console.log("Salvo = savedIdDrink", savedIdDrink);
+  console.log("Salvo currentDrink:", savedIdDrink);
+  console.log("nell ", savedIdDrink);
+  console.log("______________________");
 }
 
 function removeRecipe() {
-  const index = savedIdDrink.indexOf(currentDrink);
-  console.log(index);
-  savedIdDrink.splice(index, 1);
-  console.log("rimuovo = savedIdDrink", savedIdDrink);
+  const idRimuovere = ceckIdSavedIdDrink();
+  console.log("rimuovo currentDrink:", currentDrink);
+  console.log("id:", idRimuovere);
+  console.log("dal ", savedIdDrink);
+  if (idRimuovere) {
+    savedIdDrink.splice(idRimuovere, 1);
+  } else {
+    console.log("Errore drink da rimuovere non trovato");
+  }
+  console.log("______________________");
   updateStorage();
+}
+//controlla 
+function ceckIdSavedIdDrink() {
+  for (let key in Object.keys(savedIdDrink)) {
+    if (currentDrink.idSave === savedIdDrink[key].idSave) {
+      return key;
+    }
+  }
+  return 0;
 }
 
 function updateStorage() {
@@ -116,6 +134,7 @@ async function creaCocktailList() {
 
 // funzione che sia avvia dopo aver creato l'oggetto CocktailList
 function usaLista() {
+  console.log(CocktailList);
   allDrinkList();
   createOptionLetter()
   drinkBtn();
@@ -127,7 +146,6 @@ function usaLista() {
 }
 // crea lista drinkCard e del select in basso a destra di tutti i drink
 function allDrinkList() {
-  console.log(CocktailList);
   for (let key in Object.keys(CocktailList)) {
     createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id, !!CocktailList[key].IBA);
     createOption(CocktailList[key].nome, CocktailList[key].id);
@@ -163,7 +181,6 @@ function azBtn() {
         idFirst = idFirst + lettereLength[i];
       }
       idLast = idFirst + lettereLength[Letterlist.selectedIndex];
-      console.log(idFirst, ":", idLast);
       if (idFirst - idLast) {
         for (let key = idFirst; key < idLast; key++) {
           createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id, !!CocktailList[key].IBA);
@@ -218,8 +235,10 @@ function dadoBtn() {
 // inserisce le informazioni del drink nella schermata drink
 function drinkSection(id) {
   btFavoriteListoOff();
-  currentDrink = { nameSave: CocktailList[id].nome, idSave: id };
+  currentDrink = { nameSave: CocktailList[id].nome, idSave: String(id) };
+  console.log("______________________");
   console.log("currentDrink:", currentDrink);
+  console.log("______________________");
   if (ceckSavedIdDrink()) {
     favoriteBtn.classList.add('full');
   } else {
@@ -506,7 +525,9 @@ function btFavoriteListoOff() {
 function favoriteDrinkList() {
   for (let keySavedIdDrink in Object.keys(savedIdDrink)) {
     if (keySavedIdDrink != 0) {
-      console.log(keySavedIdDrink);
+      console.log("______________________");
+      console.log("Drink preferiti: ", keySavedIdDrink);
+      console.log("______________________");
       const key = savedIdDrink[keySavedIdDrink].idSave;
       createImgList(CocktailList[key].immageUrl, CocktailList[key].nome, CocktailList[key].id, !!CocktailList[key].IBA);
       createOption(CocktailList[key].nome, CocktailList[key].id);
