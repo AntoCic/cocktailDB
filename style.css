@@ -314,3 +314,21 @@ select {
 	width: fit-content;
 	max-width: 100px;
 }
+
+
+footer {
+	position: fixed;
+	bottom: 2px;
+	left: 10px;
+	flex-wrap: nowrap;
+	z-index: 3;
+	padding: 5px;
+}
+
+#footer {
+	position: fixed;
+	bottom: 2px;
+	left: 10px;
+	font-size: 10px;
+	color: white;
+}
