@@ -1,17 +1,18 @@
 /* color 
 #537188 
 #CBB279
-#E1D4BB
+#537188ad
 */
 
 * {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
+
 }
 
 .material-symbols-outlined {
-	color: #ffffff;
+	color: #CBB279;
 	font-variation-settings:
 		'FILL' 0,
 		'wght' 400,
@@ -30,7 +31,7 @@ h1 {
 }
 
 html {
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-family: 'Nova Square', sans-serif;
 	background-color: #CBB279;
 }
 
@@ -95,8 +96,8 @@ header {
 	z-index: 1;
 	position: relative;
 	bottom: 30%;
-	color: #ffffff;
-	background-color: rgba(141, 158, 170, 0.425);
+	color: #CBB279;
+	background-color: #537188ad;
 	border-radius: 5px;
 	padding: 3px;
 	max-width: fit-content;
@@ -140,6 +141,11 @@ header {
 	max-width: fit-content;
 	margin: 10px;
 	font-size: 30px;
+	background-color: #537188ad;
+	border-radius: 50px;
+	padding-top: 6pz;
+	padding: 4px;
+
 }
 
 .bottomBox {
