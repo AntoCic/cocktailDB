@@ -608,7 +608,15 @@ btCondividi.addEventListener("click", function () {
   btCondividi.classList.remove('material-symbols-outlined');
   btCondividi.classList.add('hidden');
 
-  shareQuote();
+  html2canvas(drinkPg).then(canvas => {
+    const link = document.createElement('a');
+    link.download = 'drink.jpeg';
+    link.href = canvas.toDataURL('img/jpeg');
+    link.click();
+  });
+
+  // shareQuote();
+
   drinkHeader[0].classList.add('hidden');
   footer2.classList.add('hidden');
   favoriteBtn.classList.remove('hidden');
