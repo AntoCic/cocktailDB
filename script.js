@@ -34,7 +34,7 @@ let lastDrinkY = 0;
 let btfavoriteListIcon = true;
 let currentDrink = null;
 let savedIdDrink = [];
-let currentImg;
+let currentUrlImg;
 // chiave localstorage
 const storageKey = '_AC_DR_';
 
@@ -236,8 +236,13 @@ function dadoBtn() {
   });
 }
 
-// inserisce le informazioni del drink nella schermata drink
-function drinkSection(id) {
+async function scaricaImgdrink(id) {
+  const imgScaricata = await creaBlob(CocktailList[id].immageUrl)
+    .catch(function (errore) {
+      console.log(errore);
+    });
+  currentUrlImg = URL.createObjectURL(imgScaricata);
+
 
   btFavoriteListoOff();
   currentDrink = { nameSave: CocktailList[id].nome, idSave: String(id) };
@@ -247,7 +252,7 @@ function drinkSection(id) {
   } else { favoriteBtn.classList.remove('full'); }
   setAppState('drink');
   inserisciIconaBicchiere(id);
-  imgDrink.setAttribute("src", CocktailList[id].immageUrl);
+  imgDrink.setAttribute("src", currentUrlImg);
   drinkName.innerText = CocktailList[id].nome;
   inserisciIngredienti(id);
   drinkMetod.innerText = CocktailList[id].metodo;
@@ -269,6 +274,33 @@ function drinkSection(id) {
     setAppState('drinkList');
     window.scrollTo(0, lastDrinkY);
   });
+
+
+
+}
+
+async function creaBlob(urlImgDaScaricare) {
+  return new Promise(function (resolve, reject) {
+    fetch(urlImgDaScaricare)
+      .then(function (response) {
+        if (response.ok) {
+          resolve(response.blob());
+        } else {
+          reject("Errore nel caricamento dei dati");
+        }
+      })
+      .catch(function (error) {
+        reject(error);
+      });
+  });
+}
+
+
+// inserisce le informazioni del drink nella schermata drink
+function drinkSection(id) {
+  setAppState('drink');
+  scaricaImgdrink(id);
+
 
 }
 
