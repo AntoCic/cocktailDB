@@ -608,14 +608,14 @@ btCondividi.addEventListener("click", function () {
   btCondividi.classList.remove('material-symbols-outlined');
   btCondividi.classList.add('hidden');
 
-  html2canvas(drinkPg).then(canvas => {
-    const link = document.createElement('a');
-    link.download = 'drink.jpeg';
-    link.href = 'whatsapp://send?text=' + encodeURIComponent('img/logoAppIco.png');
-    link.click();
-  });
+  // html2canvas(drinkPg).then(canvas => {
+  //   const link = document.createElement('a');
+  //   link.download = 'drink.jpeg';
+  //   link.href = canvas.toDataURL('img/jpeg');
+  //   link.click();
+  // });
 
-  // shareImage();
+  shareImage();
 
   drinkHeader[0].classList.add('hidden');
   footer2.classList.add('hidden');
@@ -628,28 +628,26 @@ btCondividi.addEventListener("click", function () {
 
 async function shareImage() {
 
-  // html2canvas(drinkPg).then(canvas => {
-  //   canvas.toBlob(function (blob) {
-  //     const filesArray = [
-  //       new File(
-  //         [blob],
-  //         'drink.png',
-  //         {
-  //           type: "image/png",
-  //           lastModified: new Date().getTime()
-  //         }
-  //       )
-  //     ];
-  //     const shareData = {
-  //       files: filesArray,
-  //       title: 'CkDb',
-  //       text: 'https://ac-cocktaildb.netlify.app',
-  //     };
-  //     navigator.share(shareData);
-  //   });
+  html2canvas(drinkPg).then(canvas => {
+    canvas.toBlob(function (blob) {
+      const filesArray = [
+        new File(
+          [blob],
+          'drink.png',
+          {
+            type: "image/png",
+            lastModified: new Date().getTime()
+          }
+        )
+      ];
+      const shareData = {
+        files: filesArray,
+      };
+      navigator.share(shareData);
+    });
 
 
-  // });
+  });
 
 }
 
