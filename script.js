@@ -642,8 +642,8 @@ async function shareImage() {
       ];
       const shareData = {
         files: filesArray,
-        title: 'Vacation Pictures',
-        text: 'Photos from September 27 to October 14.',
+        title: 'CkDb',
+        text: 'https://ac-cocktaildb.netlify.app',
       };
       navigator.share(shareData);
     });
