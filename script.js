@@ -608,14 +608,14 @@ btCondividi.addEventListener("click", function () {
   btCondividi.classList.remove('material-symbols-outlined');
   btCondividi.classList.add('hidden');
 
-  html2canvas(drinkPg).then(canvas => {
-    const link = document.createElement('a');
-    link.download = 'drink.jpeg';
-    link.href = canvas.toDataURL('img/jpeg');
-    link.click();
-  });
+  // html2canvas(drinkPg).then(canvas => {
+  //   const link = document.createElement('a');
+  //   link.download = 'drink.jpeg';
+  //   link.href = canvas.toDataURL('img/jpeg');
+  //   link.click();
+  // });
 
-  // shareQuote();
+  shareImage();
 
   drinkHeader[0].classList.add('hidden');
   footer2.classList.add('hidden');
@@ -626,23 +626,31 @@ btCondividi.addEventListener("click", function () {
 });
 
 
-async function shareQuote() {
+async function shareImage() {
 
-  const text = `condividi`;
+  html2canvas(drinkPg).then(canvas => {
+    canvas.toBlob(function (blob) {
+      const filesArray = [
+        new File(
+          [blob],
+          'drink.png',
+          {
+            type: "image/png",
+            lastModified: new Date().getTime()
+          }
+        )
+      ];
+      const shareData = {
+        files: filesArray,
+        title: 'Vacation Pictures',
+        text: 'Photos from September 27 to October 14.',
+      };
+      navigator.share(shareData);
+    });
 
-  if (navigator.canShare) {
-    try {
-      await navigator.share({ text: text });
-    } catch (error) {
-      console.error(error);
-    }
-  } else {
-    fallbackShareQuote(text);
-  }
-}
 
-function fallbackShareQuote(text) {
-  window.location.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
+  });
+
 }
 
 
