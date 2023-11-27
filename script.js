@@ -608,27 +608,35 @@ btCondividi.addEventListener("click", function () {
   btCondividi.classList.remove('material-symbols-outlined');
   btCondividi.classList.add('hidden');
 
-  html2canvas(drinkPg).then(canvas => {
-    const link = document.createElement('a');
-    link.download = 'drink.jpeg';
-    link.href = canvas.toDataURL('img/jpeg');
-    link.click();
-  });
+  shareQuote();
   drinkHeader[0].classList.add('hidden');
   footer2.classList.add('hidden');
   favoriteBtn.classList.remove('hidden');
   favoriteBtn.classList.add('material-symbols-outlined');
   btCondividi.classList.remove('hidden');
   btCondividi.classList.add('material-symbols-outlined');
-
-  // qrCode.classList.remove('hidden');
-  // html2canvas(drinkPg, { backgroundColor: "#CBB279" }).then(canvas => {
-  //   const link = document.createElement('a');
-  //   link.download = 'drink.jpeg';
-  //   link.href = canvas.toDataURL('image/jpeg');
-  //   link.click();
-  // });
 });
+
+
+async function shareQuote() {
+
+  const text = `condividi`;
+
+  if (navigator.canShare) {
+    try {
+      await navigator.share({ text: text });
+    } catch (error) {
+      console.error(error);
+    }
+  } else {
+    fallbackShareQuote(text);
+  }
+}
+
+function fallbackShareQuote(text) {
+  window.location.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
+}
+
 
 
 // funzione primaria che avvia il download dei dati dall API
