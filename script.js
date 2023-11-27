@@ -3,8 +3,11 @@
 //o almeno spero
 
 //__________________________________________________________________
+const bottombar = document.getElementsByClassName("bottombar");
+const ibaContainer = document.getElementsByClassName("ibaContainer");
 const favoriteListIcon = document.getElementById("favoriteListIcon");
 const favoriteBtn = document.getElementById("favoriteIcon");
+const btCondividi = document.getElementById("btCondividi");
 const h2 = document.getElementsByTagName("h2");
 const selectDropdown = document.getElementById("listDk");
 const Letterlist = document.getElementById("Letterlist");
@@ -18,6 +21,9 @@ const drinkGlass = document.getElementById("drinkGlass");
 const backArrow = document.getElementById("backArrow");
 const dado = document.getElementById("dado");
 const searchbtn = document.getElementById("searchbtn");
+const drinkHeader = document.getElementsByClassName("drinkHeader");
+const drinkPg = document.getElementById("drinkPg");
+const footer2 = document.getElementById("footer2");
 
 // , "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
 let lettere = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
@@ -28,6 +34,7 @@ let lastDrinkY = 0;
 let btfavoriteListIcon = true;
 let currentDrink = null;
 let savedIdDrink = [];
+let currentImg;
 // chiave localstorage
 const storageKey = '_AC_DR_';
 
@@ -40,6 +47,28 @@ if (storage) {
   currentDrink = { nameSave: "", idSave: "a" };
   console.log("non ci sono drink ne push uno per inizializzare la variabile: ", currentDrink);
   savedIdDrink.push(currentDrink);
+}
+
+
+// funzione che si avvia dopo aver creato l'oggetto CocktailList
+function usaLista() {
+  console.log(CocktailList);
+  // crea le drink card ea aggiunge tutti i drink nel select in basso a destra(nel bottomlBar)
+  allDrinkList();
+  // aggiunge tutte le lettere nel select in basso a sinistra nel bottomBar
+  createOptionLetter()
+  // aggiunge l'evento onClick alle drink card create
+  drinkBtn();
+  // aggiunge l'evento onChange nel select in basso a sinistra nel bottomBar
+  azBtn();
+  // aggiunge l'evento onClick al dado in basso che mostra un drink caruale
+  dadoBtn();
+  // aggiunge l'evento onChange nel select in basso a destra
+  selectBtn();
+  //cambia schermata 
+  setAppState('drinkList');
+  // mostra la bottom bar
+  bottombar[0].classList.remove('hidden');
 }
 
 // salva un drink nei preferiti
@@ -118,25 +147,6 @@ async function creaCocktailList() {
   usaLista();
 }
 
-// funzione che si avvia dopo aver creato l'oggetto CocktailList
-function usaLista() {
-  console.log(CocktailList);
-  // crea le drink card ea aggiunge tutti i drink nel select in basso a destra(nel bottomlBar)
-  allDrinkList();
-  // aggiunge tutte le lettere nel select in basso a sinistra nel bottomBar
-  createOptionLetter()
-  // aggiunge l'evento onClick alle drink card create
-  drinkBtn();
-  // aggiunge l'evento onChange nel select in basso a sinistra nel bottomBar
-  azBtn();
-  // aggiunge l'evento onClick al dado in basso che mostra un drink caruale
-  dadoBtn();
-  // aggiunge l'evento onChange nel select in basso a destra
-  selectBtn();
-  //cambia schermata 
-  setAppState('drinkList');
-}
-
 // crea lista drinkCard e del select in basso a destra di tutti i drink
 function allDrinkList() {
   for (let key in Object.keys(CocktailList)) {
@@ -166,7 +176,7 @@ function azBtn() {
     let idLast = 0;
     if (Letterlist.selectedIndex === (Letterlist.length - 1)) {
       h2[0].textContent = "TUTTI I DRINK";
-      dado.firstElementChild.textContent = "ifl";
+      dado.textContent = "ifl";
       svuotaDrinkList();
       allDrinkList();
     } else {
@@ -187,7 +197,7 @@ function azBtn() {
       }
 
       h2[0].textContent = "DRINK : " + lettere[Letterlist.selectedIndex].toUpperCase();
-      dado.firstElementChild.textContent = "sort_by_alpha";
+      dado.textContent = "sort_by_alpha";
     }
 
     drinkBtn();
@@ -206,12 +216,12 @@ function selectBtn() {
 // gestisce il clic sul dadoBt
 function dadoBtn() {
   dado.addEventListener('click', () => {
-    const dadoIcon = dado.firstElementChild.textContent;
+    const dadoIcon = dado.textContent;
     if (dadoIcon === "ifl") {
       drinkSection(Math.round(Math.random() * CocktailList.length));
     } else {
       h2[0].textContent = "TUTTI I DRINK";
-      dado.firstElementChild.textContent = "ifl";
+      dado.textContent = "ifl";
       while (phList.firstChild) {
         phList.firstChild.remove();
       }
@@ -228,6 +238,7 @@ function dadoBtn() {
 
 // inserisce le informazioni del drink nella schermata drink
 function drinkSection(id) {
+
   btFavoriteListoOff();
   currentDrink = { nameSave: CocktailList[id].nome, idSave: String(id) };
   console.log("currentDrink:", currentDrink);
@@ -240,7 +251,6 @@ function drinkSection(id) {
   drinkName.innerText = CocktailList[id].nome;
   inserisciIngredienti(id);
   drinkMetod.innerText = CocktailList[id].metodo;
-  const ibaContainer = document.getElementsByClassName("ibaContainer")
   if (!!CocktailList[id].IBA) {
     ibaContainer[0].classList.remove('hidden');
     ibaContainer[0].lastElementChild.textContent = CocktailList[id].IBA;
@@ -259,6 +269,7 @@ function drinkSection(id) {
     setAppState('drinkList');
     window.scrollTo(0, lastDrinkY);
   });
+
 }
 
 // inserisce l'icona nella drink Page
@@ -450,7 +461,7 @@ const logoBt = document.getElementById("logoBt");
 logoBt.addEventListener("click", function () {
   btFavoriteListoOff();
   h2[0].textContent = "TUTTI I DRINK";
-  dado.firstElementChild.textContent = "ifl";
+  dado.textContent = "ifl";
   svuotaDrinkList();
   allDrinkList();
   drinkBtn();
@@ -508,7 +519,7 @@ favoriteListIcon.addEventListener("click", function () {
     btfavoriteListIcon = true;
     favoriteListIcon.classList.remove('full');
     h2[0].textContent = "TUTTI I DRINK";
-    dado.firstElementChild.textContent = "ifl";
+    dado.textContent = "ifl";
     svuotaDrinkList();
     allDrinkList();
   }
@@ -543,7 +554,7 @@ function favoriteDrinkList() {
     createOption("no drink", 1000);
   }
   h2[0].textContent = "FAVORITE DRINK";
-  dado.firstElementChild.textContent = "sort_by_alpha";
+  dado.textContent = "sort_by_alpha";
 }
 
 // rimuove tutte le drink card e le option nel select in basso a destra
@@ -556,7 +567,38 @@ function svuotaDrinkList() {
   }
 }
 
+// aggiunge l'evento onClick al button condividi
+btCondividi.addEventListener("click", function () {
+  drinkHeader[0].classList.remove('hidden');
+  footer2.classList.remove('hidden');
+  favoriteBtn.classList.remove('material-symbols-outlined');
+  favoriteBtn.classList.add('hidden');
+  btCondividi.classList.remove('material-symbols-outlined');
+  btCondividi.classList.add('hidden');
+
+  html2canvas(drinkPg).then(canvas => {
+    const link = document.createElement('a');
+    link.download = 'drink.jpeg';
+    link.href = canvas.toDataURL('img/jpeg');
+    link.click();
+  });
+  drinkHeader[0].classList.add('hidden');
+  footer2.classList.add('hidden');
+  favoriteBtn.classList.remove('hidden');
+  favoriteBtn.classList.add('material-symbols-outlined');
+  btCondividi.classList.remove('hidden');
+  btCondividi.classList.add('material-symbols-outlined');
+
+  // qrCode.classList.remove('hidden');
+  // html2canvas(drinkPg, { backgroundColor: "#CBB279" }).then(canvas => {
+  //   const link = document.createElement('a');
+  //   link.download = 'drink.jpeg';
+  //   link.href = canvas.toDataURL('image/jpeg');
+  //   link.click();
+  // });
+});
 
 
 // funzione primaria che avvia il download dei dati dall API
 creaCocktailList();
+

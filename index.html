@@ -31,8 +31,8 @@
 
 <body>
   <header>
-    <span class=" backArrow hidden" id="backArrow">
-      <span class="borderSymbols" id="arrowB"> arrow_back_ios</span>
+    <span class=" btShadow borderSymbols hidden" id="backArrow">
+      arrow_back_ios
     </span>
     <div id="logoBt">
       <img src="img/logo.png" alt="logo">
@@ -44,15 +44,20 @@
   <main>
 
     <div class="Container">
-
+      <!-- drinkList -->
       <section class="drinkList">
         <h2>TUTTI I DRINK</h2>
-        <div id="phList" class="drinkList">
-          <!-- lista drink-->
-        </div>
+        <div id="phList" class="drinkList"></div>
       </section>
-
-      <section class="drink">
+      <!-- drink -->
+      <section class="drink" id="drinkPg">
+        <div class="drinkHeader hidden">
+          <img id="qrCode" src="img/qrCode.png" alt="qrCode">
+          <div id="header2">
+            <img src="img/logo.png" alt="logo">
+            <h1>COCKTAIL</h1>
+          </div>
+        </div>
         <div class="leftBox"><img id="imgDrink"
             src="https://www.thecocktaildb.com/images/media/drink/vrwquq1478252802.jpg/preview" alt="imgProva"
             width="200px" ;>
@@ -63,6 +68,9 @@
         <div class="rightBox">
           <img id="drinkGlass" src="img/logo.png" alt="logo" width="30px">
 
+          <span class="material-symbols-outlined" id="btCondividi">
+            ios_share
+          </span>
           <h1 id="drinkName"> Titolo</h1>
 
           <h3>Ingrdienti</h3>
@@ -76,9 +84,9 @@
             <p></p>
           </div>
         </div>
-
+        <p id="footer2" class="hidden">Antonino Cicala © Copyright 2023 by Antonino Cicala</p>
       </section>
-
+      <!-- loading -->
       <section class="loading">
         <img src="img/loading.gif" alt="Caricamento..." width="150px">
         <div class="loadingBar"></div>
@@ -88,18 +96,18 @@
   </main>
   <div class="bottomSpace"></div>
 
-  <div class="bottombar">
-    <span>
+  <div class="bottombar hidden">
+    <span class="btShadow">
       <select id="Letterlist"></select>
     </span>
 
-    <span class="material-symbols-outlined" id="dado">
-      <span class="borderSymbols">ifl</span>
+    <span class="material-symbols-outlined btShadow borderSymbols" id="dado">
+      ifl
     </span>
-    <span class="material-symbols-outlined borderSymbols" id="favoriteListIcon">
+    <span class="material-symbols-outlined btShadow borderSymbols" id="favoriteListIcon">
       diagnosis
     </span>
-    <span class="search">
+    <span class="search btShadow">
       <select id="listDk" class="search__input"> </select>
       <span class="material-symbols-outlined" id="searchbtn">
         manage_search
@@ -112,6 +120,9 @@
       <p id="footer">Antonino Cicala © Copyright 2023 by Antonino Cicala</p>
     </a>
   </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+    integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="./script.js"></script>
 </body>
 
